@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
  */
 
 @Controller
-@RequestMapping("/user")
+
 public class UserController {
     @Autowired
     IUserService iUserService;
@@ -43,8 +43,4 @@ public class UserController {
         return obj.toJSONString();
     }
 
-    @GetMapping("/")
-    public String getAllUser(Model model) {
-        return "index.html";
-    }
 }
