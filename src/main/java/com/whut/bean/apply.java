@@ -6,4 +6,5 @@ package com.whut.bean;
  * @date 2019/10/15 9:39
  */
 public class apply {
+    int a;
 }
