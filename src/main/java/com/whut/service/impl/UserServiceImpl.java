@@ -1,7 +1,7 @@
 package com.whut.service.impl;
 
 import com.whut.bean.User;
-import com.whut.mapper.IUserDao;
+import com.whut.dao.IUserDao;
 import com.whut.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

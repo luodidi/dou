@@ -1,20 +1,28 @@
 server:
   port: 8080
+
 #jdbc
 spring:
+  #mysql
   datasource:
-    url: jdbc:mysql://localhost:3306/student?serverTimezone=UTC&characterEncoding=utf-8
+    url: jdbc:mysql://localhost:3306/ccc?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&zeroDateTimeBehavior=CONVERT_TO_NULL
     username: root
     password: root
-#mysql
 
-#mybatis:
-  #type-aliases-package: com.qhit.demo.pojo
-  mybatis.config-location=classpath: /mybatis-config.xml
-
-#
 #视图层控制
   spring.mvc.view.prefix: classpath:/templates/
   spring.mvc.view.suffix: .html
   spring.mvc.static-path-pattern: /static/**
 
+mybatis:
+  #type-aliases-package: com.qhit.demo.pojo
+  config-location: classpath:mybatis-config.xml
+  mapper-locations: classpath:mapper/*.xml
+
+#pageHelper
+pagehelper:
+  helperDialect: mysql
+  reasonable: true
+  supportMethodsArguments: true
+  params: count=countSql
+  page-size-zero: true

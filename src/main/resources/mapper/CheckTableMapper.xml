@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.whut.dao.ICheckTableDao">
+
+    <!--
+        向检查表模板中添加一条新的检查表模板
+    -->
+    <insert id="insertCheckTable" parameterType="com.whut.bean.CheckTable">
+        insert into checktables
+        values
+        (
+        NULL,
+        #{name},
+        #{identifier},
+        #{type},
+        #{deptId},
+        #{addDate},
+        #{isDelete},
+        #{deleteDate}
+        )
+        <selectKey resultType="Integer" order="AFTER" keyProperty="id">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+
+    <!--
+    查找所有的检查表的记录
+    -->
+    <select id="getListCheckTable" resultType="java.util.Map">
+        select c.id,c.name cName,d.name dName,identifier,type,addDate,isDelete,deleteDate
+        from checktables as c,department as d
+        where c.deptId=d.id
+    </select>
+
+    <!--
+    根据id修改检查表的信息
+    -->
+    <update id="updateCheckTable" parameterType="com.whut.bean.CheckTable">
+        update checktables
+        set
+        name=#{name},
+        identifier=#{identifier},
+        type=#{type},
+        deptId=#{deptId},
+        addDate=#{addDate},
+        isDelete=#{isDelete},
+        deleteDate=#{deleteDate}
+        where id=#{id}
+    </update>
+</mapper>
