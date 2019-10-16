@@ -3,11 +3,11 @@ package com.whut.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.whut.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Map;
 
 /**
  * @author luodidi
@@ -15,27 +15,41 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * @date 2019/10/14 15:20
  */
 
-@Controller
+@RestController
 public class UserController {
     @Autowired
     private IUserService userService;
 
-    @GetMapping("/")
-    public String all(Model model) {
-        return "index.html";
-    }
-    @ResponseBody
-    @GetMapping("/api/login")
-    public String login() {
-        System.out.println("hello login xxx");
-        JSONObject obj=new JSONObject();
-        obj.put("status",1);
 
-        JSONObject dataObj = new JSONObject();
-        dataObj.put("id","admin");
-        obj.put("data",dataObj );
-
-        return obj.toJSONString();
+    @RequestMapping("/api/login")
+    public String login(
+            @RequestParam("id") Integer id,
+            @RequestParam("password") String password
+    )
+    {
+        Map<String,Object> map =userService.login(id,password);
+        JSONObject re=new JSONObject();
+        if(map==null)
+        {
+            re.put("status",0);
+            re.put("message","账号或密码错误");
+        }
+        else
+        {
+            re.put("status",1);
+            JSONObject data=new JSONObject();
+            data.put("username",map.get("userName"));
+            data.put("id",map.get("id"));
+            data.put("roleId",map.get("roleId"));
+            data.put("role",map.get("roleName"));
+            data.put("deptId",map.get("deptId"));
+            data.put("password",map.get("password"));
+            re.put("data",data);
+        }
+       return re.toJSONString();
     }
+
+
+
 
 }

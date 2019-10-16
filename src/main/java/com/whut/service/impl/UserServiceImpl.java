@@ -6,6 +6,8 @@ import com.whut.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Map;
+
 /**
  * @author luodidi
  * @version 1.0
@@ -20,5 +22,10 @@ public class UserServiceImpl implements IUserService {
     @Override
     public User getAllUser(int user_id) {
         return iUserDao.getAllUser(user_id);
+    }
+
+    @Override
+    public Map<String,Object> login(Integer id, String password) {
+        return iUserDao.login(id,password);
     }
 }

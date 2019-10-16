@@ -2,7 +2,7 @@ package com.whut.service;
 
 import com.whut.bean.User;
 
-import java.util.List;
+import java.util.Map;
 
 /**
  * @author luodidi
@@ -12,4 +12,5 @@ import java.util.List;
 public interface IUserService {
 
     User getAllUser(int user_id);
+    public Map<String,Object> login(Integer id, String password);
 }
