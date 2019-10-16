@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.whut.dao.IFirstLevelIndicatorDao">
+
+    <insert id="insertFirstLevelIndicator" parameterType="com.whut.bean.FirstLevelIndicator">
+        insert into firstlevelindicators
+        values(
+        null,
+        #{checkTableId},
+        #{project},
+        #{addDate},
+        #{isDelete},
+        '1970-01-01'
+        )
+        <selectKey resultType="Integer" order="AFTER" keyProperty="id">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+
+    <select id="getListFirstLevelIndicator" resultType="java.util.Map" parameterType="java.lang.Integer">
+        select f.id id,c.id checkTableId,project,f.addDate addDate,f.isDelete isDelete,f.deleteDate deleteDate
+        from checktables as c,firstlevelindicators as f
+        where c.id=#{checkTableId} and c.id=f.checkTableId
+    </select>
+
+    <update id="updateFirstLevelIndicator">
+        update firstlevelindicators
+        set
+        checkTableId=#{checkTableId},
+        project=#{project},
+        addDate=#{addDate},
+        isDelete=#{isDelete},
+        deleteDate=#{deleteDate}
+        where id=#{id}
+    </update>
+</mapper>

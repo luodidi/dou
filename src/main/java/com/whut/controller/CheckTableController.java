@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
 
@@ -29,14 +31,12 @@ public class CheckTableController {
     //添加一条检查表模板
     //POST
     @RequestMapping("/api/checkTable/insert")
-    public String insertCheckTable(@RequestParam("id") Integer id,
+    public String insertCheckTable(
                                    @RequestParam("name") String name,
                                    @RequestParam("identifier")String identifier,
                                    @RequestParam("type") String type,
-                                   @RequestParam("deptId")Integer deptId,
-                                   @RequestParam("addDate")String addDate,
-                                   @RequestParam("isDelete")Boolean isDelete,
-                                   @RequestParam("deleteDate")String deleteDate)
+                                   @RequestParam("deptId")Integer deptId
+                                   )
     {
         /**
          *         // |参数			|是否必选  |类型     |说明
@@ -89,7 +89,7 @@ public class CheckTableController {
             jsonObject1.put("name",name);
             jsonObject1.put("identifier",identifier);
             jsonObject1.put("deptId",deptId);
-            jsonObject1.put("add",date);
+            jsonObject1.put("addDate",new SimpleDateFormat("yyyy-MM-dd").format(date));
             jsonObject1.put("isDelete",false);
             jsonObject1.put("deleteDate",null);
 
@@ -167,9 +167,9 @@ public class CheckTableController {
             temp.put("identifier",map.get("identifier"));
             temp.put("type",map.get("type"));
             temp.put("dept",map.get("dName"));
-            temp.put("addDate",map.get("addDate"));
+            temp.put("addDate",new SimpleDateFormat("yyyy-MM-dd").format(map.get("addDate")));
             temp.put("isDelete",map.get("isDelete"));
-            temp.put("deleteDate",map.get("deleteDate"));
+            temp.put("deleteDate",new SimpleDateFormat("yyyy-MM-dd").format(map.get("deleteDate")));
             listJSON.add(temp);
         }
         re.put("list",listJSON);
@@ -180,8 +180,31 @@ public class CheckTableController {
     //修改检查表（模板）
     //POST
     @RequestMapping("/api/checkTable/update")
-    public String updateCheckTable(CheckTable checkTable)
+    public String updateCheckTable(
+            @RequestParam("id") Integer id,
+            @RequestParam("name") String name,
+            @RequestParam("identifier")String identifier,
+            @RequestParam("type") String type,
+            @RequestParam("deptId")Integer deptId,
+            @RequestParam("addDate") String addDate,
+            @RequestParam("isDelete") Boolean isDelete,
+            @RequestParam("deleteDate") String deleteDate
+    )
     {
+        CheckTable checkTable=new CheckTable();
+        checkTable.setId(id);
+        checkTable.setName(name);
+        checkTable.setIdentifier(identifier);
+        checkTable.setType(type);
+        checkTable.setDeptId(deptId);
+
+        try {
+            checkTable.setAddDate(new SimpleDateFormat( "yyyy-MM-dd").parse(addDate));
+            checkTable.setDeleteDate(new SimpleDateFormat( "yyyy-MM-dd").parse(deleteDate));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        checkTable.setDelete(isDelete);
         int nums=checkTableService.updateCheckTable(checkTable);
 
         JSONObject re=new JSONObject();
@@ -234,4 +257,5 @@ public class CheckTableController {
     {
         return "";
     }
+
 }

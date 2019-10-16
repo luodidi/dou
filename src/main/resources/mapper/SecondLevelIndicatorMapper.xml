@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.whut.dao.ISecondLevelIndicatorDao">
+
+    <insert id="insertSecondLevelIndicator" parameterType="com.whut.bean.SecondLevelIndicator">
+        insert into secondlevelindicators
+        values
+        (
+        null,
+        #{firstLevelIndicatorId},
+        #{content},
+        #{addDate},
+        #{isDelete},
+        '1970-01-01'
+        )
+        <selectKey resultType="Integer" order="AFTER" keyProperty="id">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+
+    <update id="updateSecondLevelIndicator" parameterType="com.whut.bean.SecondLevelIndicator">
+        update secondlevelindicators
+        set
+        firstLevelIndicatorId=#{firstLevelIndicatorId},
+        content=#{content},
+        addDate=#{addDate},
+        isDelete=#{isDelete},
+        deleteDate=#{deleteDate}
+        where id=#{id}
+    </update>
+
+    <select id="getListSecondLevelIndicator" resultType="java.util.Map" parameterType="java.lang.Integer">
+        select *
+        from secondlevelindicators
+        where firstLevelIndicatorId=#{firstLevelIndicatorId}
+    </select>
+</mapper>

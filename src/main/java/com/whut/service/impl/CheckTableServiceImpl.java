@@ -21,7 +21,7 @@ import java.util.Map;
 @Service
 public class CheckTableServiceImpl implements ICheckTableService {
     @Autowired
-    ICheckTableDao checkTableDao;
+    private ICheckTableDao checkTableDao;
 
     @Override
     public int insertCheckTable(CheckTable checkTable) {

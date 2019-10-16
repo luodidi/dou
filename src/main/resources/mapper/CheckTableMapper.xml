@@ -16,7 +16,7 @@
         #{deptId},
         #{addDate},
         #{isDelete},
-        #{deleteDate}
+        '1970-01-01'
         )
         <selectKey resultType="Integer" order="AFTER" keyProperty="id">
             SELECT LAST_INSERT_ID()
