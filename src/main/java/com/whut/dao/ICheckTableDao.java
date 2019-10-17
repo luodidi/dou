@@ -26,4 +26,7 @@ public interface ICheckTableDao {
 
     //根据检查表模板的id来修改该检查表的xx
     public int updateCheckTable(CheckTable checkTable);
+
+    //获取所有检查表的id和name
+    public List<Map<String, Object>> getIdAndNameListCheckTable();
 }

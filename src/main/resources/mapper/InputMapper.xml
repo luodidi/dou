@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.whut.dao.IInputDao">
+    <!--
+    添加录入检查表
+    -->
+    <insert id="insertInput" parameterType="com.whut.bean.Input">
+        insert into input
+        values
+        (
+        id=#{id},
+        checkTableId=#{checkTableId},
+        userName=#{userName},
+        deptId=#{deptId},
+        checkDate=#{checkDate},
+        deptedId=#{deptedId},
+        isQualified=#{isQualified},
+        desc=#{desc},
+        type=#{type},
+        otherPerson=#{otherPerson}
+        )
+    </insert>
+</mapper>

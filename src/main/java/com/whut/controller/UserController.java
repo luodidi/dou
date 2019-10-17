@@ -1,8 +1,11 @@
 package com.whut.controller;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.whut.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,6 +24,7 @@ public class UserController {
     private IUserService userService;
 
 
+    @Transactional
     @RequestMapping("/api/login")
     public String login(
             @RequestParam("id") Integer id,
@@ -47,5 +51,21 @@ public class UserController {
             re.put("data",data);
         }
        return re.toJSONString();
+    }
+
+    @Transactional
+    @RequestMapping("/test")
+    public String test(
+            @RequestParam("list") String list
+    )
+    {
+        JSONObject jsonObject= JSON.parseObject(list);
+        JSONArray jsonArray=jsonObject.getJSONArray("data");
+        for(Object o:jsonArray)
+        {
+            Map<String,Object> map=(Map<String, Object>) o;
+            map.get("1");
+        }
+        return "1";
     }
 }

@@ -3,6 +3,7 @@ package com.whut.service;
 import com.github.pagehelper.PageInfo;
 import com.whut.bean.CheckTable;
 
+import java.util.List;
 import java.util.Map;
 
 /*
@@ -16,4 +17,5 @@ public interface ICheckTableService {
     public int insertCheckTable(CheckTable checkTable);
     public PageInfo<Map<String,Object>> getListCheckTable(Integer page, Integer size);
     public int updateCheckTable(CheckTable checkTable);
+    public List<Map<String, Object>> getIdAndNameListCheckTable();
 }

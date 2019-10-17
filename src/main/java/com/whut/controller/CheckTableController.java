@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 /*
@@ -109,6 +110,36 @@ public class CheckTableController {
         return jsonObject.toJSONString();
     }
 
+    //获取所有检查表的id和名字
+    //Post
+    @RequestMapping("/api/checkTable/getIdAndNameList")
+    public String getIdAndNameListCheckTable()
+    {
+        //调用service层获取所有记录
+        List<Map<String,Object>> list=checkTableService.getIdAndNameListCheckTable();
+        //创建json对象作为返回值
+        JSONObject re=new JSONObject();
+        //创建JSONArray并且遍历list
+        if(list.size()>0)
+        {
+            JSONArray array=new JSONArray();
+            for(Map<String,Object> map:list)
+            {
+                JSONObject temp = new JSONObject();
+                temp.put("id", map.get("id"));
+                temp.put("name", map.get("name"));
+                array.add(temp);
+            }
+            re.put("status",1);
+            re.put("data",array);
+        }
+        else
+        {
+            re.put("status",0);
+            re.put("message","当前暂无检查表信息");
+        }
+        return re.toJSONString();
+    }
     //获取检查表列表（模板）分页
     //GET
     @RequestMapping("/api/checkTable/getList")

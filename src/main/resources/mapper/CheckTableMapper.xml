@@ -47,4 +47,12 @@
         deleteDate=#{deleteDate}
         where id=#{id}
     </update>
+
+    <!--
+    获取所有检查表的id和name
+    -->
+    <select id="getIdAndNameListCheckTable" resultType="java.util.Map">
+        select id,name
+        from checktables
+    </select>
 </mapper>
