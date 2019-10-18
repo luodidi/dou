@@ -19,7 +19,7 @@ import java.util.Map;
   To change this template use File | Settings | File Templates.
 */
 @Service
-public class SecondLevelIndicatorService implements ISecondLevelIndicatorService {
+public class SecondLevelIndicatorServiceImpl implements ISecondLevelIndicatorService {
 
     @Autowired
     private ISecondLevelIndicatorDao secondLevelIndicatorDao;

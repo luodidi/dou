@@ -7,7 +7,6 @@ import com.whut.dao.IInputDao;
 import com.whut.service.IInputService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 /*
   Created by IntelliJ IDEA.
@@ -17,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
   To change this template use File | Settings | File Templates.
 */
 @Service
-public class InputService implements IInputService {
+public class InputServiceImpl implements IInputService {
     @Autowired
     IInputDao inputDao;
 

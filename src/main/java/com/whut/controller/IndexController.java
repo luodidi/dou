@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
   To change this template use File | Settings | File Templates.
 */
 @Controller
-public class Index {
+public class IndexController {
     @GetMapping("/")
     public String all(Model model) {
         return "index.html";

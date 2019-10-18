@@ -6,7 +6,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.whut.bean.CheckTableDetail;
 import com.whut.bean.HiddenDanger;
 import com.whut.bean.Input;
-import com.whut.service.impl.InputService;
+import com.whut.service.impl.InputServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,7 +30,7 @@ import java.util.UUID;
 public class InputController {
 
     @Autowired
-    InputService inputService;
+    InputServiceImpl inputService;
 
     //创建新的录用表并且添加隐患和具体二级指标
     //Post
