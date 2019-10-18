@@ -8,16 +8,54 @@
         insert into input
         values
         (
-        id=#{id},
-        checkTableId=#{checkTableId},
-        userName=#{userName},
-        deptId=#{deptId},
-        checkDate=#{checkDate},
-        deptedId=#{deptedId},
-        isQualified=#{isQualified},
-        desc=#{desc},
-        type=#{type},
-        otherPerson=#{otherPerson}
+        #{id},
+        #{checkTableId},
+        #{userName},
+        #{deptId},
+        #{checkDate},
+        #{deptedId},
+        #{isQualified},
+        #{desc},
+        #{type},
+        #{otherPerson}
+        )
+    </insert>
+
+    <!--
+    添加隐患的信息
+    -->
+    <insert id="insetHiddenDanger" parameterType="com.whut.bean.HiddenDanger">
+        insert into hiddendanger
+        values
+        (
+        NULL,
+        #{inputId},
+        #{type},
+        #{hPhoto},
+        #{status},
+        #{startDate},
+        #{endDate},
+        #{finishDate},
+        #{rPhoto},
+        #{desc},
+        #{isFile},
+        #{dispatchUserId},
+        #{dispatchDeptId},
+        #{deptId}
+        )
+    </insert>
+
+    <!--
+    添加二级指标的具体内容
+    -->
+    <insert id="insertCheckTableDetail" parameterType="com.whut.bean.CheckTableDetail">
+        insert into checkdetail
+        values
+        (
+        #{inputId},
+        #{secondLevelIndicatorId},
+        #{isQualified},
+        #{desc}
         )
     </insert>
 </mapper>

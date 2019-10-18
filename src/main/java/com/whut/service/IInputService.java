@@ -1,5 +1,9 @@
 package com.whut.service;
 
+import com.whut.bean.CheckTableDetail;
+import com.whut.bean.HiddenDanger;
+import com.whut.bean.Input;
+
 /*
   Created by IntelliJ IDEA.
   User: ccc
@@ -8,4 +12,7 @@ package com.whut.service;
   To change this template use File | Settings | File Templates.
 */
 public interface IInputService {
+    public int insetHiddenDanger(HiddenDanger hiddenDanger);
+    public int insertInput(Input input);
+    public int insertCheckTableDetail(CheckTableDetail checkTableDetail);
 }

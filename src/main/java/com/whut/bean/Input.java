@@ -17,7 +17,7 @@ public class Input {
     public String userName;//检查人的姓名
     public Integer deptId;//检查的单位
     public Date checkDate;//检查的日期
-    public Integer depeedId;//被检查的部门id
+    public Integer deptedId;//被检查的部门id
     public Boolean isQualified;//是否合格
     public String desc;//不合格描述
     public String type;//检查类型
@@ -31,7 +31,7 @@ public class Input {
                 ", userName='" + userName + '\'' +
                 ", deptId=" + deptId +
                 ", checkDate=" + checkDate +
-                ", depeedId=" + depeedId +
+                ", deptedId=" + deptedId +
                 ", isQualified=" + isQualified +
                 ", desc='" + desc + '\'' +
                 ", type='" + type + '\'' +
@@ -79,12 +79,12 @@ public class Input {
         this.checkDate = checkDate;
     }
 
-    public Integer getDepeedId() {
-        return depeedId;
+    public Integer getDeptedId() {
+        return deptedId;
     }
 
-    public void setDepeedId(Integer depeedId) {
-        this.depeedId = depeedId;
+    public void setDeptedId(Integer deptedId) {
+        this.deptedId = deptedId;
     }
 
     public Boolean getQualified() {
