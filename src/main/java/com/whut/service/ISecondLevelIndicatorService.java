@@ -3,6 +3,7 @@ package com.whut.service;
 import com.github.pagehelper.PageInfo;
 import com.whut.bean.SecondLevelIndicator;
 
+import java.util.List;
 import java.util.Map;
 
 /*
@@ -16,4 +17,5 @@ public interface ISecondLevelIndicatorService {
     public int insertSecondLevelIndicator(SecondLevelIndicator secondLevelIndicator);
     public int updateSecondLevelIndicator(SecondLevelIndicator secondLevelIndicator);
     public PageInfo<Map<String,Object>> getListSecondLevelIndicator(Integer firstLevelIndicatorId, int pageNum, int pageSize);
+    public List<Map<String,Object>> getAllListSecondLevelIndicator(Integer firstLevelIndicatorId);
 }

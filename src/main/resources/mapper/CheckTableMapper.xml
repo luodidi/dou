@@ -55,4 +55,13 @@
         select id,name
         from checktables
     </select>
+
+    <!--
+    根据检查表id获得其详情
+    -->
+    <select id="getDetailCheckTable" resultType="java.util.Map" parameterType="java.lang.Integer">
+        select c.id id,c.name name,identifier,type,d.name deptName,addDate,isDelete,deleteDate
+        from checktables as c,department as d
+        where c.id=#{checkTableId} and c.deptId=d.id
+    </select>
 </mapper>

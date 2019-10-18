@@ -45,5 +45,8 @@ public class SecondLevelIndicatorServiceImpl implements ISecondLevelIndicatorSer
         return new PageInfo<>(list);
     }
 
-
+    @Override
+    public List<Map<String, Object>> getAllListSecondLevelIndicator(Integer firstLevelIndicatorId) {
+        return secondLevelIndicatorDao.getAllListSecondLevelIndicator(firstLevelIndicatorId);
+    }
 }

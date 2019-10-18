@@ -21,6 +21,10 @@ public interface ISecondLevelIndicatorDao {
     public int insertSecondLevelIndicator(SecondLevelIndicator secondLevelIndicator);
     //修改二级指标
     public int updateSecondLevelIndicator(SecondLevelIndicator secondLevelIndicator);
-    //由一级指标id获取所有其二级指标
+    //由一级指标id获取所有其二级指标(分页)
     public List<Map<String,Object>> getListSecondLevelIndicator(Integer firstLevelIndicatorId);
+    //由一级指标id获取其所有的二级指标（不分页）
+    public List<Map<String,Object>> getAllListSecondLevelIndicator(Integer firstLevelIndicatorId);
+    //由二级指标id获得其详情
+    public Map<String,Object> getDetailSecondLevelIndicator(Integer SecondLevelIndicatorId);
 }

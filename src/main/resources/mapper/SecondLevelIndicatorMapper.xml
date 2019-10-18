@@ -34,4 +34,13 @@
         from secondlevelindicators
         where firstLevelIndicatorId=#{firstLevelIndicatorId}
     </select>
+
+    <!--
+    由一级指标id获取其所有的二级指标（不分页）
+    -->
+    <select id="getAllListSecondLevelIndicator" resultType="java.util.Map" parameterType="java.lang.Integer">
+        select id,content
+        from secondlevelindicators
+        where firstLevelIndicatorId=#{firstLevelIndicatorId}
+    </select>
 </mapper>

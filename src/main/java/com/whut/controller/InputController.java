@@ -65,8 +65,10 @@ public class InputController {
             //存在隐患
             if(isQ==true)
             {
+
                 //创建隐患类的对象
                 HiddenDanger hiddenDanger=new HiddenDanger();
+                
                 //对hiddenDanger对象赋值
                 JSONObject jsonHd=JSON.parseObject(jsonData.getString("Hd"));
                 hiddenDanger.setInputId(jsonData.getString("inputId"));
@@ -82,9 +84,10 @@ public class InputController {
                 hiddenDanger.setDispatchUserId(jsonHd.getInteger("dispatchUserId"));
                 hiddenDanger.setDispatchDeptId(jsonHd.getInteger("dispatchDeptId"));
                 hiddenDanger.setDeptId(jsonHd.getInteger("deptId"));
+                hiddenDanger.setContent(jsonHd.getString("content"));
 
                 //向数据库中添加隐患数据
-                inputService.insetHiddenDanger(hiddenDanger);
+                inputService.insertHiddenDanger(hiddenDanger);
             }
             //获取所有二级指标信息
             JSONArray jsonArray=jsonData.getJSONArray("list");
@@ -118,7 +121,7 @@ public class InputController {
     //用于保存图片
     //Post
     @RequestMapping("/api/input/savePicture")
-    public String savePicture(@RequestParam("file") MultipartFile multipartFile)throws IOException
+    public String savePicture(@RequestParam("avatar") MultipartFile multipartFile)throws IOException
     {
         String path="F:\\douPictures";
         File file=new File(path);

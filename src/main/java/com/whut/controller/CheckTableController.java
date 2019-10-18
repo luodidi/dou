@@ -289,4 +289,40 @@ public class CheckTableController {
         return "";
     }
 
+    //根据检查表id获得其详情
+    //Post
+    @RequestMapping("/api/checkTable/getDetail")
+    public String getDetailCheckTable(
+            @RequestParam("checkTableId") Integer checkTableId)
+    {
+        Map<String,Object> map=checkTableService.getDetailCheckTable(checkTableId);
+        //创建json对象
+        JSONObject re=new JSONObject();
+//        select c.id id,c.name name,identifier,type,d.name deptName,addDate,isDelete,deleteDate
+//        from checktables as c,department as d
+//        where c.id=#{checkTableId} and c.deptId=d.id
+        if(map.size()>0)
+        {
+            re.put("status",1);
+
+            JSONObject jsonObject=new JSONObject();
+            jsonObject.put("id",map.get("id"));
+            jsonObject.put("name",map.get("name"));
+            jsonObject.put("identifier",map.get("identifier"));
+            jsonObject.put("type",map.get("type"));
+            jsonObject.put("deptName",map.get("deptName"));
+            jsonObject.put("addDate",new SimpleDateFormat("yyyy-MM-dd").format((Date)map.get("addDate")));
+            jsonObject.put("isDelete",map.get("isDelete"));
+            jsonObject.put("deleteDate",new SimpleDateFormat("yyyy-MM-dd").format((Date)map.get("deleteDate")));
+
+            re.put("data",jsonObject);
+        }
+        else
+        {
+            re.put("status",0);
+            re.put("message","获取失败");
+        }
+
+        return re.toJSONString();
+    }
 }

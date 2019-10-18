@@ -41,7 +41,8 @@
         #{isFile},
         #{dispatchUserId},
         #{dispatchDeptId},
-        #{deptId}
+        #{deptId},
+        #{content}
         )
     </insert>
 

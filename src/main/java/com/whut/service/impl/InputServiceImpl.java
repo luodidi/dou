@@ -33,7 +33,7 @@ public class InputServiceImpl implements IInputService {
     }
 
 
-    public int insetHiddenDanger(HiddenDanger hiddenDanger)
+    public int insertHiddenDanger(HiddenDanger hiddenDanger)
     {
         return inputDao.insetHiddenDanger(hiddenDanger);
     }

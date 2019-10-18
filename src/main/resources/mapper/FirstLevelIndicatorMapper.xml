@@ -33,4 +33,22 @@
         deleteDate=#{deleteDate}
         where id=#{id}
     </update>
+
+    <!--
+    根据检查表id获取所有的一级指标（不分页）
+    -->
+    <select id="getAllListFirstLevelIndicator" parameterType="java.lang.Integer" resultType="java.util.Map">
+        select id,project
+        from firstlevelindicators
+        where checkTableId=#{checkTableId}
+    </select>
+
+    <!--
+    根据一级指标id获得其详情
+    -->
+    <select id="getDetailFirstLevelIndicator" resultType="java.util.Map" parameterType="java.lang.Integer">
+        select f.id id,c.name checkTableName,project,f.addDate addDate,f.isDelete isDelete,f.deleteDate deleteDate
+        from firstlevelindicators as f,checktables as c
+        where f.id=#{firstLevelIndicatorId} and f.checkTableId=c.id;
+    </select>
 </mapper>

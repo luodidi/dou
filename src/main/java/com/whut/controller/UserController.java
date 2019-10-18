@@ -23,35 +23,47 @@ public class UserController {
     @Autowired
     private IUserService userService;
 
-
     @Transactional
     @RequestMapping("/api/login")
     public String login(
-            @RequestParam("id") Integer id,
-            @RequestParam("password") String password
     )
     {
-        Map<String,Object> map =userService.login(id,password);
         JSONObject re=new JSONObject();
-        if(map==null)
-        {
-            re.put("status",0);
-            re.put("message","账号或密码错误");
-        }
-        else
-        {
             re.put("status",1);
             JSONObject data=new JSONObject();
-            data.put("username",map.get("userName"));
-            data.put("id",map.get("id"));
-            data.put("roleId",map.get("roleId"));
-            data.put("role",map.get("roleName"));
-            data.put("deptId",map.get("deptId"));
-            data.put("password",map.get("password"));
+            data.put("id",123);
             re.put("data",data);
-        }
-       return re.toJSONString();
+        return re.toJSONString();
     }
+
+//    @Transactional
+//    @RequestMapping("/api/login")
+//    public String login(
+//            @RequestParam("id") Integer id,
+//            @RequestParam("password") String password
+//    )
+//    {
+//        Map<String,Object> map =userService.login(id,password);
+//        JSONObject re=new JSONObject();
+//        if(map==null)
+//        {
+//            re.put("status",0);
+//            re.put("message","账号或密码错误");
+//        }
+//        else
+//        {
+//            re.put("status",1);
+//            JSONObject data=new JSONObject();
+//            data.put("username",map.get("userName"));
+//            data.put("id",map.get("id"));
+//            data.put("roleId",map.get("roleId"));
+//            data.put("role",map.get("roleName"));
+//            data.put("deptId",map.get("deptId"));
+//            data.put("password",map.get("password"));
+//            re.put("data",data);
+//        }
+//       return re.toJSONString();
+//    }
 
     @Transactional
     @RequestMapping("/test")

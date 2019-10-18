@@ -26,6 +26,7 @@ public class HiddenDanger {
     public Integer dispatchUserId;//下发整改的人的id
     public Integer dispatchDeptId;//下发整改的部门的id
     public Integer deptId;//负责整改的部门的id
+    public String content;//隐患的内容
 
     @Override
     public String toString() {
@@ -44,7 +45,16 @@ public class HiddenDanger {
                 ", dispatchUserId=" + dispatchUserId +
                 ", dispatchDeptId=" + dispatchDeptId +
                 ", deptId=" + deptId +
+                ", content='" + content + '\'' +
                 '}';
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
     }
 
     public Integer getId() {

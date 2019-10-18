@@ -44,5 +44,15 @@ public class FirstLevelIndicatorImpl implements IFirstLevelIndicatorService{
         return firstLevelIndicatorDao.updateFirstLevelIndicator(firstLevelIndicator);
     }
 
+    @Override
+    public List<Map<String, Object>> getAllListFirstLevelIndicator(Integer checkTableId) {
+        return firstLevelIndicatorDao.getAllListFirstLevelIndicator(checkTableId);
+    }
+
+    @Override
+    public Map<String, Object> getDetailFirstLevelIndicator(Integer firstLevelIndicatorId) {
+        return firstLevelIndicatorDao.getDetailFirstLevelIndicator(firstLevelIndicatorId);
+    }
+
 
 }

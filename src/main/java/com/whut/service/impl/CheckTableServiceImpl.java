@@ -48,4 +48,11 @@ public class CheckTableServiceImpl implements ICheckTableService {
     public List<Map<String, Object>> getIdAndNameListCheckTable() {
         return checkTableDao.getIdAndNameListCheckTable();
     }
+
+    @Override
+    public Map<String, Object> getDetailCheckTable(Integer checkTableId) {
+        return checkTableDao.getDetailCheckTable(checkTableId);
+    }
+
+
 }

@@ -29,4 +29,7 @@ public interface ICheckTableDao {
 
     //获取所有检查表的id和name
     public List<Map<String, Object>> getIdAndNameListCheckTable();
+
+    //根据检查表id获得其详情
+    public Map<String, Object> getDetailCheckTable(Integer checkTableId);
 }

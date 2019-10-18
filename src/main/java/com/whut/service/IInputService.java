@@ -12,7 +12,7 @@ import com.whut.bean.Input;
   To change this template use File | Settings | File Templates.
 */
 public interface IInputService {
-    public int insetHiddenDanger(HiddenDanger hiddenDanger);
+    public int insertHiddenDanger(HiddenDanger hiddenDanger);
     public int insertInput(Input input);
     public int insertCheckTableDetail(CheckTableDetail checkTableDetail);
 }

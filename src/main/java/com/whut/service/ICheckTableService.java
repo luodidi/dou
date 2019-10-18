@@ -18,4 +18,5 @@ public interface ICheckTableService {
     public PageInfo<Map<String,Object>> getListCheckTable(Integer page, Integer size);
     public int updateCheckTable(CheckTable checkTable);
     public List<Map<String, Object>> getIdAndNameListCheckTable();
+    public Map<String, Object> getDetailCheckTable(Integer checkTableId);
 }

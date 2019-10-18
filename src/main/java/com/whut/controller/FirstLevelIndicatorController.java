@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 /*
@@ -222,6 +223,68 @@ public class FirstLevelIndicatorController {
 //            }
             re.put("status",0);
             re.put("message","添加失败");
+        }
+        return re.toJSONString();
+    }
+
+    //根据检查表id获取其所有的一级指标（不分页）
+    //Post
+    @RequestMapping("/api/firstLevelIndicator/getAllList")
+    public String getAllListFirstLevelIndicator(
+            @RequestParam("checkTableId") Integer checkTableId)
+    {
+        //调用service层获取数据
+        List<Map<String,Object>> list=firstLevelIndicatorService.getAllListFirstLevelIndicator(checkTableId);
+        //创建json对象
+        JSONObject re=new JSONObject();
+        //创建JSONArray并且遍历list
+        if(list.size()>0)
+        {
+            JSONArray array=new JSONArray();
+            for(Map<String,Object> map:list)
+            {
+                JSONObject temp = new JSONObject();
+                temp.put("id", map.get("id"));
+                temp.put("project", map.get("project"));
+                array.add(temp);
+            }
+            re.put("status",1);
+            re.put("data",array);
+        }
+        else
+        {
+            re.put("status",0);
+            re.put("message","当前该表暂无一级指标信息");
+        }
+        return re.toJSONString();
+    }
+
+    //根据一级指标id获得其详情
+    @RequestMapping("/api/firstLevelIndicator/getDetail")
+    public String getDetailFirstLevelIndicator(
+            @RequestParam("firstLevelIndicatorId") Integer firstLevelIndicatorId)
+    {
+        Map<String,Object> map=firstLevelIndicatorService.getDetailFirstLevelIndicator(firstLevelIndicatorId);
+//        select f.id id,c.name checkTableName,project,f.addDate addDate,f.isDelete isDelete,f.deleteDate deleteDate
+//        from firstlevelindicators as f,checktables as c
+//        where f.id=#{firstLevelIndicatorId} and f.checkTableId=c.id;
+        JSONObject re=new JSONObject();
+        if(map.size()>0)
+        {
+            re.put("status",1);
+            JSONObject jsonObject=new JSONObject();
+            jsonObject.put("id",map.get("id"));
+            jsonObject.put("checkTableName",map.get("checkTableName"));
+            jsonObject.put("project",map.get("project"));
+            jsonObject.put("addDate",new SimpleDateFormat("yyyy-MM-dd").format((Date) map.get("addDate")));
+            jsonObject.put("isDelete",map.get("isDelete"));
+            jsonObject.put("deleteDate",new SimpleDateFormat("yyyy-MM-dd").format((Date) map.get("deleteDate")));
+            re.put("date",jsonObject);
+        }
+        else
+        {
+            re.put("status",0);
+            re.put("message","获取失败");
         }
         return re.toJSONString();
     }

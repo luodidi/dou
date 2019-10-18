@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 /*
@@ -160,7 +161,7 @@ public class SecondLevelIndicatorController {
         return re.toJSONString();
     }
 
-    //由一级指标id获取所有二级指标
+    //由一级指标id获取所有二级指标(分页)
     //Get
     @RequestMapping("/api/secondLevelIndicator/getList")
     public String getListSecondLevelIndicator(Integer firstLevelIndicatorId,Integer pageNum,Integer pageSize)
@@ -210,6 +211,36 @@ public class SecondLevelIndicatorController {
         }
         data.put("list",array);
         re.put("data",data);
+        return re.toJSONString();
+    }
+
+    //由一级指标id获取所有二级指标（不分页）
+    //Post
+    @RequestMapping("/api/secondLevelIndicator/getAllList")
+    public String getAllListSecondLevelIndicator(Integer firstLevelIndicatorId)
+    {
+        List<Map<String,Object>> list= secondLevelIndicatorService.getAllListSecondLevelIndicator(firstLevelIndicatorId);
+        //创建json对象
+        JSONObject re=new JSONObject();
+        //创建JSONArray并且遍历list
+        if(list.size()>0)
+        {
+            JSONArray array=new JSONArray();
+            for(Map<String,Object> map:list)
+            {
+                JSONObject temp = new JSONObject();
+                temp.put("id", map.get("id"));
+                temp.put("content", map.get("content"));
+                array.add(temp);
+            }
+            re.put("status",1);
+            re.put("data",array);
+        }
+        else
+        {
+            re.put("status",0);
+            re.put("message","当前该表暂无一级指标信息");
+        }
         return re.toJSONString();
     }
 }
