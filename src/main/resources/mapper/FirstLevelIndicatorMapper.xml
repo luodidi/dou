@@ -20,7 +20,7 @@
     <select id="getListFirstLevelIndicator" resultType="java.util.Map" parameterType="java.lang.Integer">
         select f.id id,c.id checkTableId,project,f.addDate addDate,f.isDelete isDelete,f.deleteDate deleteDate
         from checktables as c,firstlevelindicators as f
-        where c.id=#{checkTableId} and c.id=f.checkTableId
+        where c.id=#{checkTableId} and c.id=f.checkTableId and f.isDelete=0
     </select>
 
     <update id="updateFirstLevelIndicator">
@@ -40,7 +40,7 @@
     <select id="getAllListFirstLevelIndicator" parameterType="java.lang.Integer" resultType="java.util.Map">
         select id,project
         from firstlevelindicators
-        where checkTableId=#{checkTableId}
+        where checkTableId=#{checkTableId} and isDelete=0
     </select>
 
     <!--
@@ -51,4 +51,13 @@
         from firstlevelindicators as f,checktables as c
         where f.id=#{firstLevelIndicatorId} and f.checkTableId=c.id;
     </select>
+
+    <!--
+    根据一级指标id删除一级指标
+    -->
+    <update id="deleteFirstLevelIndicator" parameterType="java.lang.Integer">
+        update firstlevelindicators
+        set isDelete=1
+        where id=#{firstLevelIndicatorId}
+    </update>
 </mapper>

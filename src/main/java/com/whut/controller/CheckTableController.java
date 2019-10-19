@@ -325,4 +325,28 @@ public class CheckTableController {
 
         return re.toJSONString();
     }
+
+    //根据id删除检查表
+    //Post
+    @RequestMapping("/api/checkTable/delete")
+    public String deleteCheckTable(
+            @RequestParam("checkTableId") Integer checkTableId
+    )
+    {
+        int i=checkTableService.deleteCheckTable(checkTableId);
+        JSONObject re=new JSONObject();
+
+        //删除成功
+        if(i>0) {
+            re.put("status",1);
+            re.put("message","删除成功");
+        }
+        //删除失败
+        else
+        {
+            re.put("status",0);
+            re.put("message","删除失败");
+        }
+        return re.toJSONString();
+    }
 }

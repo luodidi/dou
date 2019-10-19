@@ -54,5 +54,10 @@ public class FirstLevelIndicatorImpl implements IFirstLevelIndicatorService{
         return firstLevelIndicatorDao.getDetailFirstLevelIndicator(firstLevelIndicatorId);
     }
 
+    @Override
+    public int deleteFirstLevelIndicator(Integer firstLevelIndicatorId) {
+        return firstLevelIndicatorDao.deleteFirstLevelIndicator(firstLevelIndicatorId);
+    }
+
 
 }

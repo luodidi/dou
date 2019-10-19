@@ -29,7 +29,7 @@
     <select id="getListCheckTable" resultType="java.util.Map">
         select c.id,c.name cName,d.name dName,identifier,type,addDate,isDelete,deleteDate
         from checktables as c,department as d
-        where c.deptId=d.id
+        where c.deptId=d.id and isDelete=0
     </select>
 
     <!--

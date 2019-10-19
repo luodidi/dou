@@ -54,5 +54,10 @@ public class CheckTableServiceImpl implements ICheckTableService {
         return checkTableDao.getDetailCheckTable(checkTableId);
     }
 
+    @Override
+    public int deleteCheckTable(Integer checkTableId) {
+        return checkTableDao.deleteCheckTable(checkTableId);
+    }
+
 
 }

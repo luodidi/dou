@@ -59,4 +59,108 @@
         #{desc}
         )
     </insert>
+
+    <!--
+    由隐患id获得其详情
+    -->
+    <select id="getDetailHiddenDanger" resultType="java.util.Map" parameterType="java.lang.Integer">
+        select
+
+        h.id,
+        c.name checkTableName,
+        h.type,
+        h.hPhoto,
+        h.status,
+        h.startDate,
+        h.endDate,
+        h.finishDate,
+        h.rPhoto,
+        h.desc,
+        h.isFile,
+        u.name dispatchUserName,
+        dIng.name dispatchDeptName,<!--下发整改的部门-->
+        dEd.name deptName,<!--负责整改的部门-->
+        h.content
+
+        from
+
+        hiddendanger as h,
+        user as u,
+        department dEd,
+        department dIng,
+        input as i,
+        checktables as c
+
+        where
+
+        h.id=#{hiddenDangerId}
+        and i.id=h.inputId and c.id=i.checkTableId
+        and h.dispatchUserId=u.id
+        and dIng.id=h.dispatchUserId
+        and dEd.id=h.dispatchDeptId
+
+    </select>
+
+    <!--
+    由录入表id获得其详情
+    -->
+    <select id="getDetailInput" resultType="java.util.Map" parameterType="java.lang.Integer">
+        select
+
+        i.id,
+        c.name checkTableName,
+        i.userName,   <!--检查人的姓名-->
+        dIng.name deptName,
+        i.checkDate,
+        dEd.name deptedName,
+        i.isQualified,
+        i.desc,
+        i.type,
+        i.otherPerson
+
+        from
+
+        input as i,
+        checktables as c,
+        department as dIng,
+        department as dEd
+
+        where
+
+        i.checkTableId=c.id
+        and dIng.id=i.deptId
+        and dEd.id=i.deptedId
+
+    </select>
+
+    <!--
+    获取录入表列表（分页）
+    -->
+    <select id="getListInput" resultType="java.util.Map">
+        select
+
+        i.id,
+        c.name checkTableName,
+        i.userName,   <!--检查人的姓名-->
+        dIng.name deptName,
+        i.checkDate,
+        dEd.name deptedName,
+        i.isQualified,
+        i.desc,
+        i.type,
+        i.otherPerson
+
+        from
+
+        input as i,
+        checktables as c,
+        department as dIng,
+        department as dEd
+
+        where
+
+        i.checkTableId=c.id
+        and dIng.id=i.deptId
+        and dEd.id=i.deptedId
+    </select>
 </mapper>

@@ -275,4 +275,28 @@ public class SecondLevelIndicatorController {
         }
         return re.toJSONString();
     }
+
+    //由id删除二级指标
+    //Post
+    @RequestMapping("/api/secondLevelIndicator/delete")
+    public String deleteSecondLevelIndicator(
+            @RequestParam("secondLevelIndicatorId") Integer secondLevelIndicatorId
+    )
+    {
+        int i=secondLevelIndicatorService.deleteSecondLevelIndicator(secondLevelIndicatorId);
+        JSONObject re=new JSONObject();
+        //删除成功
+        if(i>0)
+        {
+            re.put("status",1);
+            re.put("message","删除成功");
+        }
+        //删除失败
+        else
+        {
+            re.put("status",0);
+            re.put("message","删除失败");
+        }
+        return re.toJSONString();
+    }
 }

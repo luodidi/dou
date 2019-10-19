@@ -19,4 +19,5 @@ public interface ISecondLevelIndicatorService {
     public PageInfo<Map<String,Object>> getListSecondLevelIndicator(Integer firstLevelIndicatorId, int pageNum, int pageSize);
     public List<Map<String,Object>> getAllListSecondLevelIndicator(Integer firstLevelIndicatorId);
     public Map<String,Object> getDetailSecondLevelIndicator(Integer SecondLevelIndicatorId);
+    public int deleteSecondLevelIndicator(Integer secondLevelIndicatorId);
 }

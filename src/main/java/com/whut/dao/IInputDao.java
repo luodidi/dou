@@ -6,6 +6,9 @@ import com.whut.bean.Input;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+import java.util.Map;
+
 /*
   Created by IntelliJ IDEA.
   User: ccc
@@ -18,8 +21,19 @@ import org.springframework.stereotype.Repository;
 public interface IInputDao {
     //添加录入检查表
     public int insertInput(Input input);
+
     //添加隐患的信息
     public int insetHiddenDanger(HiddenDanger hiddenDanger);
+
     //添加二级指标具体内容
     public int insertCheckTableDetail(CheckTableDetail checkTableDetail);
+
+    //由隐患id获得其详情
+    public Map<String,Object> getDetailHiddenDanger(Integer hiddenDangerId);
+
+    //由录取表id获得其详情
+    public Map<String,Object> getDetailInput(Integer inputId);
+
+    //获取录入表列表（分页）
+    public List<Map<String,Object>> getListInput();
 }

@@ -32,7 +32,7 @@
     <select id="getListSecondLevelIndicator" resultType="java.util.Map" parameterType="java.lang.Integer">
         select *
         from secondlevelindicators
-        where firstLevelIndicatorId=#{firstLevelIndicatorId}
+        where firstLevelIndicatorId=#{firstLevelIndicatorId} and isDelete=0
     </select>
 
     <!--
@@ -41,7 +41,7 @@
     <select id="getAllListSecondLevelIndicator" resultType="java.util.Map" parameterType="java.lang.Integer">
         select id,content
         from secondlevelindicators
-        where firstLevelIndicatorId=#{firstLevelIndicatorId}
+        where firstLevelIndicatorId=#{firstLevelIndicatorId} and isDelete=0
     </select>
 
     <!--
@@ -52,4 +52,13 @@
         from secondlevelindicators as s,firstlevelindicators as f
         where s.id=#{SecondLevelIndicatorId} and s.firstLevelIndicatorId=f.id
     </select>
+
+    <!--
+    根据二级指标id删除
+    -->
+    <update id="deleteSecondLevelIndicator" parameterType="java.lang.Integer">
+        update secondlevelindicators
+        set isDelete=1
+        where id=#{secondLevelIndicatorId}
+    </update>
 </mapper>

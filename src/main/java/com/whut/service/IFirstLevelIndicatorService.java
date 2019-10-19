@@ -19,5 +19,6 @@ public interface IFirstLevelIndicatorService {
     public int updateFirstLevelIndicator(FirstLevelIndicator firstLevelIndicator);
     public List<Map<String,Object>> getAllListFirstLevelIndicator(Integer checkTableId);
     public Map<String,Object> getDetailFirstLevelIndicator(Integer firstLevelIndicatorId);
+    public int deleteFirstLevelIndicator(Integer firstLevelIndicatorId);
 
 }

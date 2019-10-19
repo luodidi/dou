@@ -289,4 +289,29 @@ public class FirstLevelIndicatorController {
         }
         return re.toJSONString();
     }
+
+    //根据一级指标id删除
+    //Post
+    @RequestMapping("/api/firstLevelIndicator/delete")
+    public String deleteFirstLevelIndicator(
+            @RequestParam("firstLevelIndicatorId") Integer firstLevelIndicatorId
+    )
+    {
+        int i=firstLevelIndicatorService.deleteFirstLevelIndicator(firstLevelIndicatorId);
+        JSONObject re=new JSONObject();
+
+        //删除成功
+        if(i>0)
+        {
+            re.put("status",1);
+            re.put("message","删除成功");
+        }
+        //删除失败
+        else
+        {
+            re.put("status",0);
+            re.put("message","删除失败");
+        }
+        return re.toJSONString();
+    }
 }

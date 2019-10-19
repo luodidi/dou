@@ -54,4 +54,9 @@ public class SecondLevelIndicatorServiceImpl implements ISecondLevelIndicatorSer
     public Map<String, Object> getDetailSecondLevelIndicator(Integer SecondLevelIndicatorId) {
         return secondLevelIndicatorDao.getDetailSecondLevelIndicator(SecondLevelIndicatorId);
     }
+
+    @Override
+    public int deleteSecondLevelIndicator(Integer secondLevelIndicatorId) {
+        return secondLevelIndicatorDao.deleteSecondLevelIndicator(secondLevelIndicatorId);
+    }
 }

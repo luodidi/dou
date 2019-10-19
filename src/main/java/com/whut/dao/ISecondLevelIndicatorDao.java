@@ -27,4 +27,6 @@ public interface ISecondLevelIndicatorDao {
     public List<Map<String,Object>> getAllListSecondLevelIndicator(Integer firstLevelIndicatorId);
     //由二级指标id获得其详情
     public Map<String,Object> getDetailSecondLevelIndicator(Integer SecondLevelIndicatorId);
+    //根据二级指标id删除
+    public int deleteSecondLevelIndicator(Integer secondLevelIndicatorId);
 }

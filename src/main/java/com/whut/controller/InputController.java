@@ -3,6 +3,7 @@ package com.whut.controller;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.github.pagehelper.PageInfo;
 import com.whut.bean.CheckTableDetail;
 import com.whut.bean.HiddenDanger;
 import com.whut.bean.Input;
@@ -16,6 +17,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
 import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Map;
 import java.util.UUID;
 
 
@@ -142,6 +145,152 @@ public class InputController {
         JSONObject re=new JSONObject();
         re.put("status",1);
         re.put("path",path + File.separator + rPhoto);
+        return re.toJSONString();
+    }
+
+    //由隐患id获得其详情
+    //Post
+    @RequestMapping("/api/input/getDetailHiddenDanger")
+    public String getDetailHiddenDanger(
+            @RequestParam("hiddenDangerId") Integer hiddenDangerId
+    )
+    {
+//        h.id,
+//                c.name checkTableName,
+//            h.type,
+//            h.hPhoto,
+//            h.status,
+//            h.startDate,
+//            h.endDate,
+//            h.finishDate,
+//            h.rPhoto,
+//            h.desc,
+//            h.isFile,
+//            u.name dispatchUserName,
+//            dIng.name dispatchDeptName, <!--下发整改的部门-->
+//            dEd.name deptName,<!--负责整改的部门-->
+//            h.content
+        Map<String,Object> map=inputService.getDetailHiddenDanger(hiddenDangerId);
+        JSONObject re=new JSONObject();
+        //查询成功
+        if(map.size()>0)
+        {
+            re.put("status",1);
+            JSONObject data=new JSONObject();
+            data.put("id",map.get("id"));
+            data.put("checkTableName",map.get("checkTableName"));
+            data.put("type",map.get("type"));
+            data.put("hPhoto",map.get("hPhoto"));
+            data.put("status",map.get("status"));
+            data.put("startDate",new SimpleDateFormat("yyyy-MM-dd").format((Date) map.get("startDate")));
+            data.put("endDate",new SimpleDateFormat("yyyy-MM-dd").format(map.get("endDate")));
+            data.put("finishDate",new SimpleDateFormat("yyyy-MM-dd").format(map.get("finishDate")));
+            data.put("rPhoto",map.get("rPhoto"));
+            data.put("desc",map.get("desc"));
+            data.put("isFile",map.get("isFile"));
+            data.put("dispatchUserName",map.get("dispatchUserName"));
+            data.put("dispatchDeptName",map.get("dispatchDeptName"));
+            data.put("deptName",map.get("deptName"));
+            data.put("content",map.get("content"));
+            re.put("data",data);
+        }
+        //查询失败
+        else
+        {
+            re.put("status",0);
+            re.put("message","查询失败");
+        }
+        return re.toJSONString();
+    }
+
+    //由录用表id获得其详情
+    //Post
+    @RequestMapping("/api/input/getDetailInput")
+    public String getDetailInput(
+            @RequestParam("inputId") Integer inputId)
+    {
+        Map<String,Object> map=inputService.getDetailInput(inputId);
+        JSONObject re=new JSONObject();
+        //查询成功
+        if(map.size()>0)
+        {
+//                i.id,
+//                c.name checkTableName,
+//                i.userName,   <!--检查人的姓名-->
+//                dIng.name deptName,
+//                i.checkDate,
+//                dEd.name deptedName,
+//                i.isQualified,
+//                i.desc,
+//                i.type,
+//                i.otherPerson
+            re.put("status",1);
+            JSONObject data=new JSONObject();
+            data.put("id",map.get("id"));
+            data.put("checkTableName",map.get("checkTableName"));
+            data.put("userName",map.get("userName"));
+            data.put("deptName",map.get("deptName"));
+            data.put("checkDate",new SimpleDateFormat("yyyy-MM-dd").format((Date)map.get("checkDate")));
+            data.put("deptedName",map.get("deptedName"));
+            data.put("isQualified",map.get("isQualified"));
+            data.put("desc",map.get("desc"));
+            data.put("type",map.get("type"));
+            data.put("otherPerson",map.get("otherPerson"));
+            re.put("data",data);
+        }
+        //查询失败
+        else
+        {
+            re.put("status",0);
+            re.put("message","查询失败");
+        }
+        return re.toJSONString();
+    }
+
+    //获取录入表列表
+    //Get
+    @RequestMapping("/api/input/getList")
+    public String getListInput(
+            Integer pageNum,
+            Integer pageSize
+    )
+    {
+        PageInfo<Map<String,Object>> pageInfo=inputService.getListInput(pageNum,pageSize);
+
+        JSONObject re=new JSONObject();
+        //判断列表的数量
+        //数量>0
+        if(pageInfo.getSize()>0)
+        {
+            re.put("status",1);
+            JSONObject data=new JSONObject();
+            data.put("total",pageInfo.getSize());
+            data.put("pageNum",pageNum);
+            data.put("pageSize",pageSize);
+            JSONArray list=new JSONArray();
+            for (Map<String,Object> map:pageInfo.getList())
+            {
+                JSONObject temp=new JSONObject();
+                temp.put("id",map.get("id"));
+                temp.put("checkTableName",map.get("checkTableName"));
+                temp.put("userName",map.get("userName"));
+                temp.put("deptName",map.get("deptName"));
+                temp.put("checkDate",new SimpleDateFormat("yyyy-MM-dd").format((Date)map.get("checkDate")));
+                temp.put("deptedName",map.get("deptedName"));
+                temp.put("isQualified",map.get("isQualified"));
+                temp.put("desc",map.get("desc"));
+                temp.put("type",map.get("type"));
+                temp.put("otherPerson",map.get("otherPerson"));
+                list.add(temp);
+            }
+            re.put("list",list);
+        }
+        //数量<=0
+        else
+        {
+            re.put("status",0);
+            re.put("message","暂无录用表信息");
+        }
         return re.toJSONString();
     }
 }

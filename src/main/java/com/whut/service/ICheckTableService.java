@@ -19,4 +19,5 @@ public interface ICheckTableService {
     public int updateCheckTable(CheckTable checkTable);
     public List<Map<String, Object>> getIdAndNameListCheckTable();
     public Map<String, Object> getDetailCheckTable(Integer checkTableId);
+    public int deleteCheckTable(Integer checkTableId);
 }

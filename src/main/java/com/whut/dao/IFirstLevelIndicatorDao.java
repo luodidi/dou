@@ -32,4 +32,7 @@ public interface IFirstLevelIndicatorDao {
 
     //根据一级指标id获得其详情
     public Map<String,Object> getDetailFirstLevelIndicator(Integer firstLevelIndicatorId);
+
+    //根据id删除一级指标
+    public int deleteFirstLevelIndicator(Integer firstLevelIndicatorId);
 }
