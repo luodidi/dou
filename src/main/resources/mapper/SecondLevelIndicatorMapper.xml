@@ -43,4 +43,13 @@
         from secondlevelindicators
         where firstLevelIndicatorId=#{firstLevelIndicatorId}
     </select>
+
+    <!--
+    由二级指标id获得其详情
+    -->
+    <select id="getDetailSecondLevelIndicator" resultType="java.util.Map" parameterType="java.lang.Integer">
+        select s.id,f.project,s.content,s.addDate,s.isDelete,s.deleteDate
+        from secondlevelindicators as s,firstlevelindicators as f
+        where s.id=#{SecondLevelIndicatorId} and s.firstLevelIndicatorId=f.id
+    </select>
 </mapper>

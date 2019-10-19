@@ -260,6 +260,7 @@ public class FirstLevelIndicatorController {
     }
 
     //根据一级指标id获得其详情
+    //Post
     @RequestMapping("/api/firstLevelIndicator/getDetail")
     public String getDetailFirstLevelIndicator(
             @RequestParam("firstLevelIndicatorId") Integer firstLevelIndicatorId)

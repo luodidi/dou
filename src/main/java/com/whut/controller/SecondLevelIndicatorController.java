@@ -217,7 +217,8 @@ public class SecondLevelIndicatorController {
     //由一级指标id获取所有二级指标（不分页）
     //Post
     @RequestMapping("/api/secondLevelIndicator/getAllList")
-    public String getAllListSecondLevelIndicator(Integer firstLevelIndicatorId)
+    public String getAllListSecondLevelIndicator(
+            @RequestParam("firstLevelIndicatorId") Integer firstLevelIndicatorId)
     {
         List<Map<String,Object>> list= secondLevelIndicatorService.getAllListSecondLevelIndicator(firstLevelIndicatorId);
         //创建json对象
@@ -240,6 +241,37 @@ public class SecondLevelIndicatorController {
         {
             re.put("status",0);
             re.put("message","当前该表暂无一级指标信息");
+        }
+        return re.toJSONString();
+    }
+
+    //由二级指标id获得其详情
+    //Post
+    @RequestMapping("/api/secondLevelIndicator/getDetail")
+    public String getDetailSecondLevelIndicator(
+            @RequestParam("secondLevelIndicatorId") Integer secondLevelIndicatorId)
+    {
+        Map<String,Object> map=secondLevelIndicatorService.getDetailSecondLevelIndicator(secondLevelIndicatorId);
+//        select s.id,f.project,s.content,s.addDate,s.isDelete,s.deleteDate
+//        from secondlevelindicators as s,firstlevelindicators as f
+//        where s.id=#{SecondLevelIndicatorId} and s.firstLevelIndicatorId=f.id
+        JSONObject re=new JSONObject();
+        if(map.size()>0)
+        {
+            re.put("status",1);
+            JSONObject jsonObject=new JSONObject();
+            jsonObject.put("id",map.get("id"));
+            jsonObject.put("project",map.get("project"));
+            jsonObject.put("content",map.get("content"));
+            jsonObject.put("addDate",new SimpleDateFormat("yyyy-MM-dd").format((Date) map.get("addDate")));
+            jsonObject.put("isDelete",map.get("isDelete"));
+            jsonObject.put("deleteDate",new SimpleDateFormat("yyyy-MM-dd").format((Date) map.get("deleteDate")));
+            re.put("date",jsonObject);
+        }
+        else
+        {
+            re.put("status",0);
+            re.put("message","获取失败");
         }
         return re.toJSONString();
     }

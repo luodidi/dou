@@ -32,4 +32,7 @@ public interface ICheckTableDao {
 
     //根据检查表id获得其详情
     public Map<String, Object> getDetailCheckTable(Integer checkTableId);
+
+    //由检查表id删除检查表
+    public int deleteCheckTable(Integer checkTableId);
 }
