@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
@@ -37,7 +38,7 @@ public class InputController {
 
     //创建新的录用表并且添加隐患和具体二级指标
     //Post
-    @Transactional
+    @Transactional //出现异常时进行回滚
     @RequestMapping("/api/input/insert")
     public String insertInput (
             @RequestParam("data") String data
@@ -77,7 +78,8 @@ public class InputController {
                 hiddenDanger.setInputId(jsonData.getString("inputId"));
                 hiddenDanger.setType(jsonHd.getString("type"));
                 hiddenDanger.sethPhoto(jsonHd.getString("hPhoto"));
-                hiddenDanger.setStatus(jsonHd.getString("status"));
+                //hiddenDanger.setStatus(jsonHd.getString("status"));
+                hiddenDanger.setStatus("未整改");
                 hiddenDanger.setStartDate(new SimpleDateFormat("yyyy-MM-dd").parse(jsonHd.getString("startDate")));
                 hiddenDanger.setEndDate(new SimpleDateFormat("yyyy-MM-dd").parse(jsonHd.getString("endDate")));
                 hiddenDanger.setFinishDate(new SimpleDateFormat("yyyy-MM-dd").parse(jsonHd.getString("finishDate")));
@@ -247,7 +249,7 @@ public class InputController {
         return re.toJSONString();
     }
 
-    //获取录入表列表
+    //获取录入表列表（分页）
     //Get
     @RequestMapping("/api/input/getList")
     public String getListInput(
@@ -290,6 +292,136 @@ public class InputController {
         {
             re.put("status",0);
             re.put("message","暂无录用表信息");
+        }
+        return re.toJSONString();
+    }
+
+    //下发整改
+    //Post
+    @RequestMapping("/api/input/toRectify")
+    public String toRectify(
+//            status=#{status},
+//    startDate=#{startDate},
+//    endDate=#{endDate},
+//    dispatchDeptId=#{dispatchDeptId},
+//    dispatchUserId=#{dispatchUserId},
+//    deptId=#{deptId}
+            @RequestParam("id") Integer id ,
+            @RequestParam("startDate") String startDate,
+            @RequestParam("endDate") String endDate,
+            @RequestParam("dispatchDeptId") Integer dispatchDeptId ,
+            @RequestParam("dispatchUserId") Integer dispatchUserId ,
+            @RequestParam("deptId") Integer deptId
+    ) throws ParseException {
+        HiddenDanger hiddenDanger=new HiddenDanger();
+        hiddenDanger.setId(id);
+        hiddenDanger.setStatus("未整改");
+        hiddenDanger.setStartDate(new SimpleDateFormat("yyyy-MM-dd").parse(startDate));
+        hiddenDanger.setEndDate(new SimpleDateFormat("yyyy-MM-dd").parse(endDate));
+        hiddenDanger.setDispatchUserId(dispatchUserId);
+        hiddenDanger.setDispatchDeptId(dispatchDeptId);
+        hiddenDanger.setDeptId(deptId);
+        int i=inputService.toRectify(hiddenDanger);
+        JSONObject re=new JSONObject();
+        if(i>0)
+        {
+            re.put("status",1);
+            re.put("message","下发整改成功");
+        }
+        else
+        {
+            re.put("status",0);
+            re.put("message","下发整改失败");
+        }
+        return re.toJSONString();
+    }
+
+    //完成整改
+    //Post
+    @RequestMapping("/api/input/rectify")
+    public String rectify(
+//            rPhoto=#{rPhoto},
+//    status=#{status},
+//    finishDate=#{finishDate},
+//            `desc`=#{desc}
+            @RequestParam("rPhoto") String rPhoto,
+            @RequestParam("id") Integer id ,
+            @RequestParam("finishDate") String finishDate,
+            @RequestParam("desc") String desc
+    ) throws ParseException {
+        HiddenDanger hiddenDanger=new HiddenDanger();
+        hiddenDanger.setId(id);
+        hiddenDanger.setrPhoto(rPhoto);
+        hiddenDanger.setStatus("整改中");
+        hiddenDanger.setFinishDate(new SimpleDateFormat("yyyy-MM-dd").parse(finishDate));
+        hiddenDanger.setDesc(desc);
+        int i=inputService.rectify(hiddenDanger);
+        JSONObject re=new JSONObject();
+        if(i>0)
+        {
+            re.put("status",1);
+            re.put("message","完成整改成功");
+        }
+        else
+        {
+            re.put("status",0);
+            re.put("message","完成整改失败");
+        }
+        return re.toJSONString();
+    }
+
+    //获取某种状态的隐患表（非逾期，分页）
+    //Get
+    @RequestMapping("/api/input/getListHiddenDanger")
+    public String getHiddenDangerList(String status,int pageNum,int pageSize)
+    {
+        PageInfo<Map<String,Object>> pageInfo;
+        if(status.equals("已逾期"))
+        {
+            pageInfo=inputService.getHiddenDangerListTimeOut(pageNum,pageSize);
+        }
+        else
+        {
+            pageInfo=inputService.getHiddenDangerList(status,pageNum,pageSize);
+        }
+
+
+        JSONObject re=new JSONObject();
+        if(pageInfo.getSize()>0)
+        {
+            re.put("status",1);
+            JSONObject data=new JSONObject();
+            data.put("total",pageInfo.getSize());
+            data.put("pageNum",pageNum);
+            data.put("pageSize",pageSize);
+            JSONArray list=new JSONArray();
+            for(Map<String,Object> map:pageInfo.getList())
+            {
+                JSONObject temp=new JSONObject();
+                temp.put("id",map.get("id"));
+                temp.put("checkTableName",map.get("checkTableName"));
+                temp.put("type",map.get("type"));
+                temp.put("hPhoto",map.get("hPhoto"));
+                temp.put("status",map.get("status"));
+                temp.put("startDate",new SimpleDateFormat("yyyy-MM-dd").format((Date) map.get("startDate")));
+                temp.put("endDate",new SimpleDateFormat("yyyy-MM-dd").format(map.get("endDate")));
+                temp.put("finishDate",new SimpleDateFormat("yyyy-MM-dd").format(map.get("finishDate")));
+                temp.put("rPhoto",map.get("rPhoto"));
+                temp.put("desc",map.get("desc"));
+                temp.put("isFile",map.get("isFile"));
+                temp.put("dispatchUserName",map.get("dispatchUserName"));
+                temp.put("dispatchDeptName",map.get("dispatchDeptName"));
+                temp.put("deptName",map.get("deptName"));
+                temp.put("content",map.get("content"));
+                list.add(temp);
+            }
+            data.put("list",list);
+            re.put("data",data);
+        }
+        else
+        {
+            re.put("status",0);
+            re.put("message","查询失败");
         }
         return re.toJSONString();
     }

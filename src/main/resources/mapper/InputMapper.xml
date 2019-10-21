@@ -34,7 +34,7 @@
         #{hPhoto},
         #{status},
         #{startDate},
-        #{endDate},
+        '2999-12-31',
         #{finishDate},
         #{rPhoto},
         #{desc},
@@ -162,5 +162,121 @@
         i.checkTableId=c.id
         and dIng.id=i.deptId
         and dEd.id=i.deptedId
+    </select>
+
+    <!--
+    下发整改
+    -->
+    <update id="toRectify" parameterType="com.whut.bean.HiddenDanger">
+        update hiddendanger
+        set
+
+        status='整改中',
+        startDate=#{startDate},
+        endDate=#{endDate},
+        dispatchDeptId=#{dispatchDeptId},
+        dispatchUserId=#{dispatchUserId},
+        deptId=#{deptId}
+
+        where
+        id=#{id}
+        and status=#{status}
+    </update>
+
+    <!--
+    整改
+    -->
+    <update id="rectify" parameterType="com.whut.bean.HiddenDanger">
+        update hiddendanger
+        set
+        rPhoto=#{rPhoto},
+        status='已整改',
+        finishDate=#{finishDate},
+        `desc`=#{desc}
+        where
+        id=#{id}
+        and status=#{status}
+    </update>
+
+    <!--
+    获取某种状态的隐患
+    -->
+    <select id="getHiddenDangerList" resultType="java.util.Map">
+        select
+
+        h.id,
+        c.name checkTableName,
+        h.type,
+        h.hPhoto,
+        h.status,
+        h.startDate,
+        h.endDate,
+        h.finishDate,
+        h.rPhoto,
+        h.desc,
+        h.isFile,
+        u.name dispatchUserName,
+        dIng.name dispatchDeptName,<!--下发整改的部门-->
+        dEd.name deptName,<!--负责整改的部门-->
+        h.content
+
+        from
+
+        hiddendanger as h,
+        user as u,
+        department dEd,
+        department dIng,
+        input as i,
+        checktables as c
+
+        where
+
+        i.id=h.inputId and c.id=i.checkTableId
+        and h.dispatchUserId=u.id
+        and dIng.id=h.dispatchUserId
+        and dEd.id=h.dispatchDeptId
+        and h.status=#{status}
+        and to_days(now()) &lt;= to_days(h.endDate)
+    </select>
+
+    <!--
+    获取逾期的隐患
+    -->
+    <select id="getHiddenDangerListTimeOut" resultType="java.util.Map" parameterType="java.lang.String">
+        select
+
+        h.id,
+        c.name checkTableName,
+        h.type,
+        h.hPhoto,
+        h.status,
+        h.startDate,
+        h.endDate,
+        h.finishDate,
+        h.rPhoto,
+        h.desc,
+        h.isFile,
+        u.name dispatchUserName,
+        dIng.name dispatchDeptName,<!--下发整改的部门-->
+        dEd.name deptName,<!--负责整改的部门-->
+        h.content
+
+        from
+
+        hiddendanger as h,
+        user as u,
+        department dEd,
+        department dIng,
+        input as i,
+        checktables as c
+
+        where
+
+        i.id=h.inputId and c.id=i.checkTableId
+        and h.dispatchUserId=u.id
+        and dIng.id=h.dispatchUserId
+        and dEd.id=h.dispatchDeptId
+        and h.status='整改中'
+        and to_days(now()) &gt; to_days(h.endDate)
     </select>
 </mapper>

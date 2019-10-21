@@ -40,7 +40,7 @@ public class CheckTableController {
                                    )
     {
         /**
-         *         // |参数			|是否必选  |类型     |说明
+         * // |参数		 |是否必选  |类型     |说明
          * //|id       	 |N		   |int     |检查表id
          * //|name        |Y        |string  |检查表名
          * //|identifier  |Y	       |string  |检查表编号
@@ -53,7 +53,9 @@ public class CheckTableController {
 
         //创建CheckTable对象
         //id自增
+
         CheckTable checkTable=new CheckTable();
+
         checkTable.setName(name);
         checkTable.setIdentifier(identifier);
         checkTable.setType(type);
@@ -105,7 +107,6 @@ public class CheckTableController {
             jsonObject.put("status",0);
             jsonObject.put("message","添加失败");
         }
-
         //返回检查表的数据
         return jsonObject.toJSONString();
     }
@@ -155,7 +156,7 @@ public class CheckTableController {
 //        {
 //            "status": 1,
 //                "data": {
-//            "total": 32,	//总记录条数
+//                "total": 32,	//总记录条数
 //                    "pageNum": 2,
 //                    "pageSize": 10,
 //                    "list": [

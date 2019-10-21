@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.whut.dao.IRoleDao">
+    <select id="getAllRole" resultType="com.whut.bean.Role">
+        select * from role
+    </select>
+
+    <select id="getRoleById"  resultType="com.whut.bean.Role">
+        select id,name
+        from role
+        where id=#{id}
+    </select>
+
+    <select id="getListRole" resultType="java.util.Map" parameterType="com.whut.bean.Role">
+        select id,name
+        from department
+    </select>
+
+   <delete id="deleteRole" parameterType="java.lang.Integer">
+        delete from role where id=#{id}
+    </delete>
+
+    <insert id="insertRole" parameterType="com.whut.bean.Role">
+        insert into role
+        values
+        (
+        NULL,
+        #{name}
+        )
+        <selectKey resultType="Integer" order="AFTER" keyProperty="id">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+
+
+    <update id="updateRoleById" parameterType="com.whut.bean.Role">
+        update role
+        set name=#{name}
+        where id=#{id}
+    </update>
+</mapper>

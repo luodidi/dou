@@ -1,5 +1,6 @@
 package com.whut.service.impl;
 
+import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.whut.bean.CheckTableDetail;
@@ -10,6 +11,7 @@ import com.whut.service.IInputService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
 
 /*
@@ -50,6 +52,28 @@ public class InputServiceImpl implements IInputService {
     public PageInfo<Map<String, Object>> getListInput(Integer pageNum, Integer pageSize) {
         PageHelper.startPage(pageNum,pageSize);
         return new PageInfo<>(inputDao.getListInput());
+    }
+
+    @Override
+    public int toRectify(HiddenDanger hiddenDanger) {
+        return inputDao.toRectify(hiddenDanger);
+    }
+
+    @Override
+    public int rectify(HiddenDanger hiddenDanger) {
+        return inputDao.rectify(hiddenDanger);
+    }
+
+    @Override
+    public PageInfo<Map<String, Object>> getHiddenDangerList(String status,int pageNum,int pageSize) {
+        PageHelper.startPage(pageNum,pageSize);
+        return new PageInfo<>(inputDao.getHiddenDangerList(status));
+    }
+
+    @Override
+    public PageInfo<Map<String, Object>> getHiddenDangerListTimeOut(int pageNum, int pageSize) {
+        PageHelper.startPage(pageNum,pageSize);
+        return new PageInfo<>(inputDao.getHiddenDangerListTimeOut());
     }
 
 

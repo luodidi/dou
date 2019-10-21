@@ -8,4 +8,40 @@
         from user as u,role as r
         where u.id=#{id} and password=#{password} and r.id=u.roleId
     </select>
+
+    <delete id="deleteUser" parameterType="java.lang.Integer">
+        delete from user where id=#{id}
+    </delete>
+
+    <insert id="insertUser" parameterType="com.whut.bean.User">
+        insert into user
+        values
+        (
+        null ,
+        #{name},
+        #{roleId},
+        #{deptId},
+        #{password}
+        )
+        <selectKey resultType="Integer" order="AFTER" keyProperty="id">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+
+    </insert>
+
+    <select id="getListUser" resultType="java.util.Map" parameterType="com.whut.bean.User">
+        select id,name,roleId,deptId,password
+        from user
+    </select>
+
+    <update id="updateUserById" parameterType="com.whut.bean.User">
+        update user
+        set
+        name=#{name},
+        roleId=#{roleId},
+        deptId=#{deptId},
+        password=#{password}
+        where id=#{id}
+    </update>
+
 </mapper>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.whut.dao.IHazardDao">
+  <!--  <select id="getAllHazard" resultType="com.whut.bean.hazard">
+        select * from hazard
+    </select>-->
+
+    <insert id="insertHazard" parameterType="com.whut.bean.Hazard">
+        insert into hazard
+        values
+        (
+        NULL,
+        #{riskId},
+        #{name},
+        #{type},
+        #{L},
+        #{E},
+        #{C},
+        #{degree},
+        #{measure},
+        #{level},
+        #{deptId},
+        #{userId}
+        )
+        <selectKey resultType="Integer" order="AFTER" keyProperty="id">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+
+    <select id="getListHazard" resultType="java.util.Map">
+        select id,riskId,name,type,l,e,c,degree,measure,level,deptId,userId
+        from hazard
+    </select>
+
+    <delete id="deleteHazard" parameterType="java.lang.Integer">
+        delete from hazard where id=#{id}
+    </delete>
+
+
+    <select id="getDetailHazard" resultType="java.util.Map" parameterType="java.lang.Integer">
+        select id riskId,name,type,l,e,c,degree,measure,level,deptId,userId from hazard
+        where id=#{id}
+    </select>
+
+
+    <update id="updateHazardById" parameterType="com.whut.bean.Hazard">
+        update hazard
+        set
+        riskId=#{riskId},
+        name=#{name},
+        type=#{type},
+        L=#{L},
+        E=#{E},
+        C=#{C},
+        degree=#{degree},
+        measure=#{measure},
+        level=#{level},
+        deptId=#{deptId},
+        userId=#{userId}
+        where id=#{id}
+    </update>
+
+</mapper>

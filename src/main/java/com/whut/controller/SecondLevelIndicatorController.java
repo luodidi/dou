@@ -102,7 +102,7 @@ public class SecondLevelIndicatorController {
     )
     {
 //        |参数        			  |是否必选     |类型      |说明
-//            |id					   |Y			|int	  |自己的id
+//            |id			      |Y			|int	  |自己的id
 //            |firstLevelIndicatorId |Y	 		|int      |所属一级指标的id
 //            |content			   |Y			|string   |内容
 //            |addDate	     	   |N           |string   |添加日期
