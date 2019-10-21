@@ -4,6 +4,7 @@ import com.whut.bean.CheckTableDetail;
 import com.whut.bean.HiddenDanger;
 import com.whut.bean.Input;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -29,11 +30,24 @@ public interface IInputDao {
     public int insertCheckTableDetail(CheckTableDetail checkTableDetail);
 
     //由隐患id获得其详情
-    public Map<String,Object> getDetailHiddenDanger(Integer hiddenDangerId);
+    public Map<String, Object> getDetailHiddenDanger(Integer hiddenDangerId);
 
     //由录取表id获得其详情
-    public Map<String,Object> getDetailInput(Integer inputId);
+    public Map<String, Object> getDetailInput(Integer inputId);
 
     //获取录入表列表（分页）
-    public List<Map<String,Object>> getListInput();
+    public List<Map<String, Object>> getListInput();
+
+    //下发整改：改变状态、添加指令下发人、整改下发日期。。。
+    public int toRectify(HiddenDanger hiddenDanger);
+
+    //完成整改
+    public int rectify(HiddenDanger hiddenDanger);
+
+    //获得各种状态的隐患表(非逾期)
+    public List<Map<String, Object>> getHiddenDangerList(
+            @Param("status") String status);
+
+    //获取逾期的隐患
+    public List<Map<String, Object>> getHiddenDangerListTimeOut();
 }

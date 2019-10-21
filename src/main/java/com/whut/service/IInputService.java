@@ -21,4 +21,8 @@ public interface IInputService {
     public Map<String,Object> getDetailHiddenDanger(Integer hiddenDangerId);
     public Map<String,Object> getDetailInput(Integer inputId);
     public PageInfo<Map<String,Object>> getListInput(Integer pageNum,Integer pageSize);
+    public int toRectify(HiddenDanger hiddenDanger);
+    public int rectify(HiddenDanger hiddenDanger);
+    public PageInfo<Map<String,Object>> getHiddenDangerList(String status,int pageNum,int pageSize);
+    public PageInfo<Map<String, Object>> getHiddenDangerListTimeOut(int pageNum,int pageSize);
 }
