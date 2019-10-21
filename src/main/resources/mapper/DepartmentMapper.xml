@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.whut.dao.IDepartmentDao">
+
+    <select id="getAllDepartment" resultType="com.whut.bean.Department">
+        select * from department
+    </select>
+
+
+    <insert id="insertDepartment" parameterType="com.whut.bean.Department">
+        insert into department
+        values
+        (
+        NULL,
+        #{name}
+        )
+        <selectKey resultType="Integer" order="AFTER" keyProperty="id">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+
+    <select id="getListDepartment" resultType="java.util.Map" parameterType="com.whut.bean.Department">
+        select id,name
+        from department
+    </select>
+
+    <update id="updateDepartmentById" parameterType="com.whut.bean.Department">
+        update department
+        set name=#{name}
+        where id=#{id}
+    </update>
+
+    <delete id="deleteDepartment" parameterType="java.lang.Integer">
+        delete from department where id=#{id}
+    </delete>
+
+</mapper>
