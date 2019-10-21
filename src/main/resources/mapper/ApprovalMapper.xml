@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.whut.dao.IApprovalDao">
+
+
+
+    <update id="resetApproval" parameterType="java.lang.Integer" >
+        update approval
+        set result='已退回'
+        where dangerousOperationId=#{dangerousOperationId}
+    </update>
+
+    <update id="passApproval" parameterType="java.lang.Integer">
+        update approval
+        set result='已通过'
+        where dangerousOperationId=#{dangerousOperationId}
+    </update>
+
+</mapper>

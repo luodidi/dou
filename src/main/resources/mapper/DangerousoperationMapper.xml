@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.whut.dao.IDangerousoperationDao">
+
+
+<select id="find" resultType="java.util.Map">
+    select *
+    from dangerousoperation
+    where id=#{dangerousoperationId}
+</select>
+
+   <update id="updateangerousoperation" parameterType="com.whut.bean.Dangerousoperation">
+       update dangerousoperation
+       set
+       deptId=#{deptId},
+       applyDate=#{applyDate},
+       status=#{status},
+       keepFile=#{keepFile},
+       name=#{name},
+       startDate=#{startDate},
+       endDate=#{endDate},
+       place=#{place},
+       applyPerson=#{applyPerson},
+       curator=#{curator},
+       content=#{content},
+       number=#{number},
+       majorFactor=#{majorFactor},
+       safeMeasure=#{safeMeasure},
+       keepYear=#{keepYear}
+       where
+       id=#{id}
+
+   </update>
+
+    <insert id="addangerousoperation" parameterType="com.whut.bean.Dangerousoperation">
+        insert into dangerousoperation values
+        (
+        null,
+        #{deptId},
+        #{applyDate},
+        #{status},
+        #{keepFile},
+        #{name},
+        #{startDate},
+        #{endDate},
+        #{place},
+        #{applyPerson},
+        #{curator},
+        #{content},
+        #{number},
+        #{majorFactor},
+        #{safeMeasure},
+        #{keepYear}
+        )
+    </insert>
+
+
+    <!--temp.put("deptId", map.get("deptId"));-->
+    <!--temp.put("name", map.get("name"));-->
+    <!--temp.put("place", map.get("place"));-->
+    <!--temp.put("curator", map.get("curator"));-->
+    <!--&lt;!&ndash;//部分&ndash;&gt;-->
+    <select id="findListDangerousoperation" resultType="java.util.Map" >
+        select id,deptId,name,place,curator
+        from dangerousoperation
+    </select>
+
+    <select id="findDangerousoperation"  resultType="java.util.Map">
+        select *
+        from dangerousoperation
+    </select>
+
+    <delete id="deletedangerousoperation" parameterType="java.lang.Integer">
+        delete from dangerousoperation
+        where id=#{dangerousoperationId}
+    </delete>
+
+    <update id="submitdangerousoperation" parameterType="java.lang.Integer">
+        update dangerousoperation
+        set status='已提交'
+        where id=#{dangerousoperationId}
+    </update>
+
+    <!--<update id="withdrawdangerousoperation">-->
+        <!--update dangerousoperation-->
+        <!--set status=2-->
+        <!--where id=#{dangerousoperationId}-->
+    <!--</update>-->
+
+    <update id="filedangerousoperation" parameterType="java.lang.Integer">
+        update dangerousoperation
+        set keepFile=1
+        where id=#{dangerousoperationId}
+    </update>
+
+    <delete id="withdrawdangerousoperation" parameterType="java.lang.Integer">
+        delete from dangerousoperation
+        where id=#{dangerousoperationId}
+    </delete>
+
+</mapper>

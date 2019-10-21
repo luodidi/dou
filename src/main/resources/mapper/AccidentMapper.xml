@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.whut.dao.IAccidentDao">
+
+    <insert id="addAccident" parameterType="com.whut.bean.Accident">
+        insert into accident
+        values
+        (
+        NULL,
+        #{accidentType},
+        #{name},
+        #{place},
+        #{date},
+        #{status},
+        #{nature},
+        #{level},
+        #{reason},
+        #{directLoss},
+        #{indirectLoss},
+        #{lossWorkDay},
+        #{outageTime},
+        #{survey},
+        #{causeAnalysis},
+        #{injure},
+        #{lossDegree},
+        #{resolution},
+        #{lesson},
+        #{measure},
+        #{remark}
+        )
+        <selectKey resultType="Integer" order="AFTER" keyProperty="id">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+
+    <update id="updateAccident">
+        update accident
+        set
+        accidentType=#{accidentType},
+        name=#{name},
+        place=#{place},
+        date=#{date},
+        status=#{status},
+        nature=#{nature},
+        level=#{level},
+        reason=#{reason},
+        directLoss=#{directLoss},
+        indirectLoss=#{indirectLoss},
+        lossWorkDay=#{lossWorkDay},
+        outageTime=#{outageTime},
+        survey=#{survey},
+        causeAnalysis=#{causeAnalysis},
+        injure=#{injure},
+        lossDegree=#{lossDegree},
+        resolution=#{resolution},
+        lesson=#{lesson},
+        measure=#{measure},
+        remark=#{remark}
+        where id=#{id}
+    </update>
+
+    <delete id="deleteAccident">
+        delete
+        from accident
+        where id=#{id}
+    </delete>
+
+<!--//详情-->
+    <select id="getdetail" resultType="java.util.Map" parameterType="java.lang.Integer">
+        select *
+        from accident
+        where id=#{id}
+    </select>
+
+<!--//查询部分-->
+    <select id="getAccident" resultType="java.util.Map">
+        select id,name from accident
+    </select>
+
+    <!--//查询所有-->
+    <select id="getListAccident" resultType="java.util.Map">
+        select *
+        from accident
+    </select>
+
+    <select id="sumNumberId" resultType="java.lang.Integer">
+        select count(*)
+        from accident
+    </select>
+
+    <select id="sumDirectLoss" resultType="java.util.Map">
+        select accidentType,sum(directLoss)
+        from accident
+        group by accidentType
+    </select>
+    <!--SELECT department, SUM(sales) as "Total sales"-->
+    <!--FROM order_details-->
+    <!--GROUP BY department;-->
+
+    <select id="sumIndirectLoss" resultType="java.util.Map">
+        select accidentType,sum(indirectLoss)
+        from accident
+        group by accidentType
+    </select>
+
+    <select id="sumLevel" resultType="java.util.Map">
+        select level,count(level)
+        from accident
+        group by level
+    </select>
+
+</mapper>

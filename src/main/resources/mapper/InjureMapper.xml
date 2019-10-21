@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.whut.dao.IInjureDao">
+
+    <insert id="addInjure" parameterType="com.whut.bean.Injure">
+        insert into injure
+        values(
+        #{accidentId},
+        #{userId},
+        #{level},
+        #{injureNature},
+        #{lossWorkDay},
+        #{degree},
+        #{damage},
+        #{position},
+        #{compensate}
+        )
+        <!--private int accidentId,userId,lossWorkDay;-->
+        <!--private String level,injureNature,degree,damage,position;-->
+        <!--private double compensate;-->
+    </insert>
+
+    <update id="updateInjure">
+        update injure
+        set
+        level=#{level},
+        injureNature=#{injureNature},
+        lossWorkDay=#{lossWorkDay},
+        degree=#{degree},
+        damage=#{damage},
+        position=#{position},
+        compensate=#{compensate}
+        where accidentId=#{accidentId} and userId=#{userId}
+    </update>
+
+    <delete id="deleteInjure">
+        delete from injure
+        where accidentId=#{accidentId} and userId=#{userId}
+    </delete>
+
+    <!--//部分-->
+    <select id="getInjure" resultType="java.util.Map" parameterType="java.lang.Integer">
+        select accidentId,userId,level
+        from injure
+    </select>
+
+    <!--//详细-->
+    <select id="getInjuredetail" resultType="java.util.Map" parameterType="java.lang.Integer">
+        select *
+        from injure
+        where accidentId=#{accidentId} and userId=#{userId}
+    </select>
+
+    <select id="getListInjuret" resultType="java.util.Map" parameterType="java.lang.Integer">
+        select *
+        from injure
+    </select>
+</mapper>
+
