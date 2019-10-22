@@ -10,12 +10,12 @@ import java.util.Date;
   To change this template use File | Settings | File Templates.
 */
 public class SecondLevelIndicator {
-    public Integer id;//二级指标的id
-    public Integer firstLevelIndicatorId;//所属一级指标的id
-    public String content;//该二级指标的内容
-    public Date addDate;//添加的时间
-    public Boolean isDelete;//是否删除
-    public Date deleteDate;//删除的时间
+    private Integer id;//二级指标的id
+    private Integer firstLevelIndicatorId;//所属一级指标的id
+    private String content;//该二级指标的内容
+    private Date addDate;//添加的时间
+    private Boolean isDelete;//是否删除
+    private Date deleteDate;//删除的时间
 
     @Override
     public String toString() {

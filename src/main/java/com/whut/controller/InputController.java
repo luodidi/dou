@@ -370,7 +370,7 @@ public class InputController {
         return re.toJSONString();
     }
 
-    //获取某种状态的隐患表（非逾期，分页）
+    //获取某种状态的隐患表（分页）
     //Get
     @RequestMapping("/api/input/getListHiddenDanger")
     public String getHiddenDangerList(String status,int pageNum,int pageSize)
