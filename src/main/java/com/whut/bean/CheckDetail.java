@@ -10,10 +10,10 @@ package com.whut.bean;
 
 //用于描述二级指标
 public class CheckDetail {
-    public String inputId;//录入表的id
-    public Integer secondLevelIndicatorId;//二级指标id
-    public Boolean isQualified;//是否合格
-    public String desc;//不合格说明
+    private String inputId;//录入表的id
+    private Integer secondLevelIndicatorId;//二级指标id
+    private Boolean isQualified;//是否合格
+    private String desc;//不合格说明
 
     @Override
     public String toString() {

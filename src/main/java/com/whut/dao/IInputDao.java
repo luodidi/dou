@@ -50,4 +50,7 @@ public interface IInputDao {
 
     //获取逾期的隐患
     public List<Map<String, Object>> getHiddenDangerListTimeOut();
+
+    //修改隐患信息
+    public int updateHiddenDanger(HiddenDanger hiddenDanger);
 }

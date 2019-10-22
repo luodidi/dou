@@ -12,16 +12,16 @@ import java.util.Date;
 
 //用于描述录入表的信息
 public class Input {
-    public String id;//录入检查表的id
-    public Integer checkTableId;//所使用的检查表id
-    public String userName;//检查人的姓名
-    public Integer deptId;//检查的单位
-    public Date checkDate;//检查的日期
-    public Integer deptedId;//被检查的部门id
-    public Boolean isQualified;//是否合格
-    public String desc;//不合格描述
-    public String type;//检查类型
-    public String otherPerson;//参检人
+    private String id;//录入检查表的id
+    private Integer checkTableId;//所使用的检查表id
+    private String userName;//检查人的姓名
+    private Integer deptId;//检查的单位
+    private Date checkDate;//检查的日期
+    private Integer deptedId;//被检查的部门id
+    private Boolean isQualified;//是否合格
+    private String desc;//不合格描述
+    private String type;//检查类型
+    private String otherPerson;//参检人
 
     @Override
     public String toString() {

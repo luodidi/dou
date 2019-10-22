@@ -279,4 +279,15 @@
         and h.status='整改中'
         and to_days(now()) &gt; to_days(h.endDate)
     </select>
+
+    <!--
+    修改隐患信息
+    -->
+    <update id="updateHiddenDanger" parameterType="com.whut.bean.HiddenDanger">
+        update hiddendanger
+        set
+
+        where
+        id=#{id}
+    </update>
 </mapper>
