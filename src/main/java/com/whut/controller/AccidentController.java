@@ -252,7 +252,7 @@ public class AccidentController {
             re.put("status",1);
             JSONObject jsonObject1=new JSONObject();
             jsonObject1.put("id",map.get("id"));
-            jsonObject1.put("accidentType", map.get("ccidentType"));
+            jsonObject1.put("accidentType", map.get("accidentType"));
             jsonObject1.put("name", map.get("name"));
             jsonObject1.put("place", map.get("place"));
             jsonObject1.put("date", new SimpleDateFormat("yyyy-MM-dd").format((Date) map.get("date")));

@@ -16,4 +16,7 @@
         where dangerousOperationId=#{dangerousOperationId}
     </update>
 
+    <select id="getListApproval" resultType="java.util.Map">
+        select * from approval
+    </select>
 </mapper>
