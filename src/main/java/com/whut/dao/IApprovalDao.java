@@ -19,4 +19,5 @@ public interface IApprovalDao {
 
     public int resetApproval(Integer dangerousOperationId);//退回
     public int passApproval(Integer dangerousOperationId);//通过
+    public List<Map<String, Object>> getListApproval();//批复记录
 }

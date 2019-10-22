@@ -31,4 +31,13 @@ public class ApprovalImpl implements IApprovalService {
     public int passApproval(int  dangerousOperationId) {
         return iApprovalDao.passApproval(dangerousOperationId);
     }
+
+    @Override
+    public PageInfo<Map<String,Object>> getListApproval(Integer page, Integer size) {
+        PageHelper.startPage(page,size);
+        List<Map<String,Object>> list=iApprovalDao.getListApproval();
+//                iAccidentDao.getListAccident();
+        PageInfo<Map<String,Object>> pageInfo= new PageInfo<>(list);
+        return pageInfo;
+    }
 }

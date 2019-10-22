@@ -17,4 +17,5 @@ public interface IApprovalService {
 
     public int resetApproval(int dangerousOperationId);//退回
     public int passApproval(int dangerousOperationId);//通过
+    public PageInfo<Map<String,Object>> getListApproval(Integer page, Integer size);//批复记录
 }
