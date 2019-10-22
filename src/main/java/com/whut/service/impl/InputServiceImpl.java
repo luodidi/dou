@@ -1,6 +1,5 @@
 package com.whut.service.impl;
 
-import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.whut.bean.CheckTableDetail;
@@ -74,6 +73,16 @@ public class InputServiceImpl implements IInputService {
     public PageInfo<Map<String, Object>> getHiddenDangerListTimeOut(int pageNum, int pageSize) {
         PageHelper.startPage(pageNum,pageSize);
         return new PageInfo<>(inputDao.getHiddenDangerListTimeOut());
+    }
+
+    @Override
+    public List<Map<String, Object>> getNumberHiddenDanger() {
+        return inputDao.getNumberHiddenDanger();
+    }
+
+    @Override
+    public List<Map<String, Object>> getNumberHiddenDangerTimeOut() {
+        return inputDao.getNumberHiddenDangerTimeOut();
     }
 
 

@@ -285,9 +285,30 @@
     -->
     <update id="updateHiddenDanger" parameterType="com.whut.bean.HiddenDanger">
         update hiddendanger
-        set
 
         where
         id=#{id}
     </update>
+
+    <!--
+    获得各种隐患的数量(非逾期)
+    -->
+    <select id="getNumberHiddenDanger" resultType="java.util.Map">
+        SELECT h.type hdType,h.status status,COUNT(h.type) hdTypeNum,COUNT(h.status) statusNum
+        FROM hiddendanger AS h
+        WHERE
+        to_days(now()) &lt;= to_days(h.endDate)
+        GROUP BY h.type,h.status
+    </select>
+
+    <!--
+    获得隐患的数量（逾期）
+    -->
+    <select id="getNumberHiddenDangerTimeOut" resultType="java.util.Map">
+        SELECT h.type hdType,COUNT(h.type) hdTypeNum
+        FROM hiddendanger AS h
+        WHERE
+        to_days(now()) &gt; to_days(h.endDate)
+        GROUP BY h.type
+    </select>
 </mapper>

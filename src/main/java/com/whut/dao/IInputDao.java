@@ -53,4 +53,10 @@ public interface IInputDao {
 
     //修改隐患信息
     public int updateHiddenDanger(HiddenDanger hiddenDanger);
+
+    //获得各种隐患的分类(未逾期)
+    public List<Map<String,Object>> getNumberHiddenDanger();
+
+    //获得各种隐患的分类（逾期）
+    public List<Map<String,Object>> getNumberHiddenDangerTimeOut();
 }

@@ -83,7 +83,6 @@ public class HazardController {
 
     )
     {
-
         Hazard hazard=new Hazard();
         hazard.setRiskId(riskId);
         hazard.setName(name);

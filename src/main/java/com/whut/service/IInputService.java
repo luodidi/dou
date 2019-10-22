@@ -5,6 +5,7 @@ import com.whut.bean.CheckTableDetail;
 import com.whut.bean.HiddenDanger;
 import com.whut.bean.Input;
 
+import java.util.List;
 import java.util.Map;
 
 /*
@@ -25,4 +26,7 @@ public interface IInputService {
     public int rectify(HiddenDanger hiddenDanger);
     public PageInfo<Map<String,Object>> getHiddenDangerList(String status,int pageNum,int pageSize);
     public PageInfo<Map<String, Object>> getHiddenDangerListTimeOut(int pageNum,int pageSize);
+    public List<Map<String,Object>> getNumberHiddenDanger();
+    public List<Map<String,Object>> getNumberHiddenDangerTimeOut();
+
 }

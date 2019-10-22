@@ -18,9 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 
 /*
@@ -423,6 +421,138 @@ public class InputController {
             re.put("status",0);
             re.put("message","查询失败");
         }
+        return re.toJSONString();
+    }
+
+    //获得各种隐患分类的数量
+    @RequestMapping("/api/input/getNumberHiddenDanger")
+    public String getNumberHiddenDanger()
+    {
+//        SELECT h.type hdType,i.`type` inputType,COUNT(h.`type`) hdTypeNum,COUNT(i.`type`) inputTypeNum
+//        FROM input AS i,hiddendanger AS h
+//        WHERE i.id=h.`inputId`
+//        and to_days(now()) &lt;= to_days(h.endDate)
+//        GROUP BY h.type,i.`type`
+
+        List<Map<String,Object>> data=inputService.getNumberHiddenDanger();
+        List<Map<String,Object>> dataTimeOut=inputService.getNumberHiddenDangerTimeOut();
+        JSONObject re=new JSONObject();
+
+        HashMap<String,Integer> map=new HashMap<>();
+        map.put("wzgyb",0);//未整改一般
+        map.put("wzgjd",0);//未整改较大
+        map.put("wzgyz",0);//未整改严重
+        map.put("yzgyb",0);//已整改一般
+        map.put("yzgjd",0);//已整改
+        map.put("yzgyz",0);
+        map.put("zgzyb",0);
+        map.put("zgzjd",0);//整改中
+        map.put("zgzyz",0);
+        map.put("yyqyb",0);
+        map.put("yyqjd",0);//已逾期
+        map.put("yyqyz",0);
+
+        if(!(dataTimeOut==null||data.size()<1))
+        {
+            for(Map<String,Object> map1:dataTimeOut)
+            {
+                if(map1.get("hdType").equals("一般隐患"))
+                {
+                    map.put("yyqyb",((Long)map1.get("hdTypeNum")).intValue()+(int)map.get("yyqyb"));
+                }
+                else if(map1.get("hdType").equals("较大隐患"))
+                {
+                    map.put("yyqjd",((Long)map1.get("hdTypeNum")).intValue()+(int)map.get("yyqjd"));
+                }
+                else
+                {
+                    map.put("yyqyz",((Long)map1.get("hdTypeNum")).intValue()+map.get("yyqyz"));
+                }
+            }
+        }
+        if(!(data==null||data.size()<1))
+        {
+            for (Map<String,Object>map1:data)
+            {
+                if(map1.get("status").equals("未整改"))
+                {
+                    if(map1.get("hdType").equals("一般隐患"))
+                    {
+                        map.put("wzgyb",((Long)map1.get("hdTypeNum")).intValue()+(int)map.get("wzgyb"));
+                    }
+                    else if(map1.get("hdType").equals("较大隐患"))
+                    {
+                        map.put("wzgjd",((Long)map1.get("hdTypeNum")).intValue()+(int)map.get("wzgjd"));
+                    }
+                    else
+                    {
+                        map.put("wzgyz",((Long)map1.get("hdTypeNum")).intValue()+(int)map.get("wzgyz"));
+                    }
+                }
+                else if(map1.get("status").equals("整改中"))
+                {
+                    if(map1.get("hdType").equals("一般隐患"))
+                    {
+                        map.put("yzgyb",((Long)map1.get("hdTypeNum")).intValue()+(int)map.get("yzgyb"));
+                    }
+                    else if(map1.get("hdType").equals("较大隐患"))
+                    {
+                        map.put("yzgjd",((Long)map1.get("hdTypeNum")).intValue()+(int)map.get("yzgjd"));
+                    }
+                    else
+                    {
+                        map.put("yzgyz",((Long)map1.get("hdTypeNum")).intValue()+(int)map.get("yzgyz"));
+                    }
+                }
+                else
+                {
+                    if(map1.get("hdType").equals("一般隐患"))
+                    {
+                        map.put("zgzyb",((Long)map1.get("hdTypeNum")).intValue()+(int)map.get("zgzyb"));
+                    }
+                    else if(map1.get("hdType").equals("较大隐患"))
+                    {
+                        map.put("zgzjd",((Long)map1.get("hdTypeNum")).intValue()+(int)map.get("zgzjd"));
+                    }
+                    else
+                    {
+                        map.put("zgzyz",((Long)map1.get("hdTypeNum")).intValue()+(int)map.get("zgzyz"));
+                    }
+                }
+            }
+        }
+
+        re.put("status",1);
+        JSONArray data1=new JSONArray();
+        String inputName[]=new String[]{"未整改","整改中","已整改","已逾期"};
+        String hdName[]=new String[]{"一般隐患","较大隐患","严重隐患"};
+        String input[]=new String[]{"wzgyb","wzgjd","wzgyz",
+                                    "zgzyb","zgzjd","zgzyz",
+                                    "yzgyb","yzgjd","yzgyz",
+                                    "yyqyb","yyqjd","yyqyz"};
+        int i=0;
+        int k=0;
+        while (i<4)
+        {
+            JSONObject temp=new JSONObject();
+            temp.put("status",inputName[i]);
+            temp.put("total",map.get(input[k++])+map.get(input[k++])+map.get(input[k++]));
+            int j=0;
+            JSONArray list=new JSONArray();
+            while (j<3)
+            {
+                JSONObject temp2=new JSONObject();
+                temp2.put("hdType",hdName[j]);
+                temp2.put("total",map.get(input[k-3+j]));
+                list.add(temp2);
+                j++;
+            }
+            temp.put("list",list);
+            data1.add(temp);
+            i++;
+        }
+        re.put("data",data1);
+
         return re.toJSONString();
     }
 }
