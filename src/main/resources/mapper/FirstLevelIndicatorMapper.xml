@@ -55,9 +55,10 @@
     <!--
     根据一级指标id删除一级指标
     -->
-    <update id="deleteFirstLevelIndicator" parameterType="java.lang.Integer">
+    <update id="deleteFirstLevelIndicator" >
         update firstlevelindicators
-        set isDelete=1
+        set isDelete=1,
+        deleteDate=#{deleteDate}
         where id=#{firstLevelIndicatorId}
     </update>
 </mapper>

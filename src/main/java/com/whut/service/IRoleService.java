@@ -3,7 +3,6 @@ package com.whut.service;
 import com.github.pagehelper.PageInfo;
 import com.whut.bean.Role;
 
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -22,4 +21,5 @@ public interface IRoleService {
     public int updateRoleById(Role role);     // 更新
 
     public int deleteRole(Integer id);            // 删除
+
 }

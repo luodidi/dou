@@ -5,7 +5,10 @@ import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageInfo;
 import com.whut.bean.CheckTable;
 import com.whut.service.ICheckTableService;
+import com.whut.service.IFirstLevelIndicatorService;
+import com.whut.service.ISecondLevelIndicatorService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -27,7 +30,10 @@ import java.util.Map;
 public class CheckTableController {
     @Autowired
     ICheckTableService checkTableService;
-
+    @Autowired
+    IFirstLevelIndicatorService firstLevelIndicatorService;
+    @Autowired
+    ISecondLevelIndicatorService secondLevelIndicatorService;
 
     //添加一条检查表模板
     //POST
@@ -204,8 +210,8 @@ public class CheckTableController {
             temp.put("deleteDate",new SimpleDateFormat("yyyy-MM-dd").format(map.get("deleteDate")));
             listJSON.add(temp);
         }
-        re.put("list",listJSON);
-
+        data.put("list",listJSON);
+        re.put("data",data);
         return re.toJSONString();
     }
 
@@ -290,4 +296,77 @@ public class CheckTableController {
         return "";
     }
 
+    //由检查表id获得该检查表的信息（包括检查表信息、一级指标、二级指标）
+    //Post
+    @Transactional
+    @RequestMapping("/api/checkTable/getAllInfoById")
+    public String getAllInfoByIdCheckTable(
+            @RequestParam("checkTableId") Integer checkTableId
+           // @RequestBody Map map
+    )
+    {
+        //int checkTableId=(int)map.get("checkTableId");
+        Map<String,Object> checkTableData=checkTableService.getDetailCheckTable(checkTableId);
+//        select c.id id,c.name name,identifier,type,d.name deptName,addDate,isDelete,deleteDate
+//        from checktables as c,department as d
+//        where c.id=#{checkTableId} and c.deptId=d.id
+        JSONObject re=new JSONObject();
+        re.put("checkTableId",checkTableId);
+        re.put("checkTableName",checkTableData.get("name"));
+        re.put("type",checkTableData.get("type"));
+        re.put("identifier",checkTableData.get("identifier"));
+        re.put("deptName",checkTableData.get("deptName"));
+        re.put("addDate",new SimpleDateFormat("yyyy-MM-dd").format((Date) checkTableData.get("addDate")));
+        re.put("isDelete",checkTableData.get("isDelete"));
+        re.put("deleteDate",new SimpleDateFormat("yyyy-MM-dd").format((Date) checkTableData.get("deleteDate")));
+
+        JSONArray firstList=new JSONArray();
+        List<Map<String,Object>> firstData=firstLevelIndicatorService.getAllListFirstLevelIndicator(checkTableId);
+//        select id,project
+//        from firstlevelindicators
+//        where checkTableId=#{checkTableId} and isDelete=0
+        for(Map<String,Object>firstMap:firstData)
+        {
+            JSONObject temp=new JSONObject();
+            temp.put("id",firstMap.get("id"));
+            temp.put("project",firstMap.get("project"));
+            List<Map<String,Object>> secondData=secondLevelIndicatorService.getAllListSecondLevelIndicator(
+                    (int)firstMap.get("id"));
+//            select id,content
+//            from secondlevelindicators
+//            where firstLevelIndicatorId=#{firstLevelIndicatorId} and isDelete=0
+            JSONArray secondList=new JSONArray();
+            for(Map<String,Object> secondMap:secondData)
+            {
+                JSONObject temp2=new JSONObject();
+                temp2.put("secondLevelId",secondMap.get("id"));
+                temp2.put("content",secondMap.get("content"));
+                secondList.add(temp2);
+            }
+            temp.put("secondList",secondList);
+            firstList.add(temp);
+        }
+        re.put("firstList",firstList);
+        return re.toJSONString();
+    }
+
+    @RequestMapping("/api/checkTable/delete")
+    public String deleteCheckTabel(
+            @RequestParam("checkTableId") Integer checkTableId
+    )
+    {
+        int i=checkTableService.deleteCheckTable(checkTableId,new Date());
+        JSONObject re=new JSONObject();
+        if(i>0)
+        {
+            re.put("status",1);
+            re.put("message","删除成功");
+        }
+        else
+        {
+            re.put("status",0);
+            re.put("message","删除失败");
+        }
+        return re.toJSONString();
+    }
 }

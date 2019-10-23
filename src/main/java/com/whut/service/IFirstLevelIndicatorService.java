@@ -3,6 +3,7 @@ package com.whut.service;
 import com.github.pagehelper.PageInfo;
 import com.whut.bean.FirstLevelIndicator;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -19,6 +20,6 @@ public interface IFirstLevelIndicatorService {
     public int updateFirstLevelIndicator(FirstLevelIndicator firstLevelIndicator);
     public List<Map<String,Object>> getAllListFirstLevelIndicator(Integer checkTableId);
     public Map<String,Object> getDetailFirstLevelIndicator(Integer firstLevelIndicatorId);
-    public int deleteFirstLevelIndicator(Integer firstLevelIndicatorId);
+    public int deleteFirstLevelIndicator(Integer firstLevelIndicatorId, Date deleteDate);
 
 }

@@ -8,6 +8,7 @@ import com.whut.service.ICheckTableService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -55,8 +56,8 @@ public class CheckTableServiceImpl implements ICheckTableService {
     }
 
     @Override
-    public int deleteCheckTable(Integer checkTableId) {
-        return checkTableDao.deleteCheckTable(checkTableId);
+    public int deleteCheckTable(Integer checkTableId, Date deleteDate) {
+        return checkTableDao.deleteCheckTable(checkTableId,deleteDate);
     }
 
 

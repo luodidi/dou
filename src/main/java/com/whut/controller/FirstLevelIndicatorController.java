@@ -297,7 +297,7 @@ public class FirstLevelIndicatorController {
             @RequestParam("firstLevelIndicatorId") Integer firstLevelIndicatorId
     )
     {
-        int i=firstLevelIndicatorService.deleteFirstLevelIndicator(firstLevelIndicatorId);
+        int i=firstLevelIndicatorService.deleteFirstLevelIndicator(firstLevelIndicatorId,new Date());
         JSONObject re=new JSONObject();
 
         //删除成功

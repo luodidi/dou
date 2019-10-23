@@ -9,6 +9,7 @@ import com.whut.service.IFirstLevelIndicatorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -55,8 +56,8 @@ public class FirstLevelIndicatorImpl implements IFirstLevelIndicatorService{
     }
 
     @Override
-    public int deleteFirstLevelIndicator(Integer firstLevelIndicatorId) {
-        return firstLevelIndicatorDao.deleteFirstLevelIndicator(firstLevelIndicatorId);
+    public int deleteFirstLevelIndicator(Integer firstLevelIndicatorId, Date deleteDate) {
+        return firstLevelIndicatorDao.deleteFirstLevelIndicator(firstLevelIndicatorId,deleteDate);
     }
 
 

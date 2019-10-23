@@ -24,4 +24,7 @@ public interface IDepartmentService {
     // 删除部门
     public int deleteDepartment(Integer id);
 
+    //获取所有部门信息（不分页） -ccc
+    public List<Map<String,Object>> getAllDept();
+
 }

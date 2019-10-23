@@ -3,6 +3,7 @@ package com.whut.service;
 import com.github.pagehelper.PageInfo;
 import com.whut.bean.CheckTable;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -19,5 +20,5 @@ public interface ICheckTableService {
     public int updateCheckTable(CheckTable checkTable);
     public List<Map<String, Object>> getIdAndNameListCheckTable();
     public Map<String, Object> getDetailCheckTable(Integer checkTableId);
-    public int deleteCheckTable(Integer checkTableId);
+    public int deleteCheckTable(Integer checkTableId, Date deleteDate);
 }

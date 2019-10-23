@@ -2,8 +2,10 @@ package com.whut.dao;
 
 import com.whut.bean.FirstLevelIndicator;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -34,5 +36,5 @@ public interface IFirstLevelIndicatorDao {
     public Map<String,Object> getDetailFirstLevelIndicator(Integer firstLevelIndicatorId);
 
     //根据id删除一级指标
-    public int deleteFirstLevelIndicator(Integer firstLevelIndicatorId);
+    public int deleteFirstLevelIndicator(@Param("firstLevelIndicatorId") Integer firstLevelIndicatorId, @Param("deleteDate")Date deleteDate);
 }

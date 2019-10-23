@@ -145,5 +145,24 @@ public class DepartmentController {
         return re.toJSONString();
     }
 
+    //获取所有的角色 ---cccc
+    @RequestMapping("/api/department/getAllDept")
+    public String getAllRole()
+    {
+        List<Map<String,Object>> list=departmentService.getAllDept();
 
+        JSONObject re=new JSONObject();
+        re.put("status",1);
+        JSONArray listJSON=new JSONArray();
+        for(Map<String,Object> map:list)
+        {
+            JSONObject temp=new JSONObject();
+            temp.put("id",map.get("id"));
+            temp.put("name",map.get("name"));
+            listJSON.add(temp);
+        }
+        re.put("list",listJSON);
+
+        return re.toJSONString();
+    }
 }

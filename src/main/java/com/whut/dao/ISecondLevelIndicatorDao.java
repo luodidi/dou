@@ -2,8 +2,10 @@ package com.whut.dao;
 
 import com.whut.bean.SecondLevelIndicator;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -28,5 +30,7 @@ public interface ISecondLevelIndicatorDao {
     //由二级指标id获得其详情
     public Map<String,Object> getDetailSecondLevelIndicator(Integer SecondLevelIndicatorId);
     //根据二级指标id删除
-    public int deleteSecondLevelIndicator(Integer secondLevelIndicatorId);
+    public int deleteSecondLevelIndicator(
+            @Param("secondLevelIndicatorId") Integer secondLevelIndicatorId,
+            @Param("deleteDate")Date deleteDate);
 }

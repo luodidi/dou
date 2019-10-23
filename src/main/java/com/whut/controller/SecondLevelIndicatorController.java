@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -95,10 +94,10 @@ public class SecondLevelIndicatorController {
     public String updateSecondLevelIndicator(
             @RequestParam("id") Integer id,
             @RequestParam("firstLevelIndicatorId") Integer firstLevelIndicatorId,
-            @RequestParam("content") String content,
-            @RequestParam("addDate") String addDate,
-            @RequestParam("isDelete") Boolean isDelete,
-            @RequestParam("deleteDate") String deleteDate
+            @RequestParam("content") String content
+//            @RequestParam("addDate") String addDate,
+//            @RequestParam("isDelete") Boolean isDelete,
+//            @RequestParam("deleteDate") String deleteDate
     )
     {
 //        |参数        			  |是否必选     |类型      |说明
@@ -113,13 +112,13 @@ public class SecondLevelIndicatorController {
         secondLevelIndicator.setId(id);
         secondLevelIndicator.setFirstLevelIndicatorId(firstLevelIndicatorId);
         secondLevelIndicator.setContent(content);
-        try {
-            secondLevelIndicator.setAddDate(new SimpleDateFormat("yyyy-MM-dd").parse(addDate));
-            secondLevelIndicator.setDeleteDate(new SimpleDateFormat("yyyy-MM-dd").parse(deleteDate));
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        secondLevelIndicator.setDelete(isDelete);
+//        try {
+//            secondLevelIndicator.setAddDate(new SimpleDateFormat("yyyy-MM-dd").parse(addDate));
+//            secondLevelIndicator.setDeleteDate(new SimpleDateFormat("yyyy-MM-dd").parse(deleteDate));
+//        } catch (ParseException e) {
+//            e.printStackTrace();
+//        }
+//        secondLevelIndicator.setDelete(isDelete);
         //调用service层更新
         int nums=secondLevelIndicatorService.updateSecondLevelIndicator(secondLevelIndicator);
         //创建json来返回
@@ -142,9 +141,9 @@ public class SecondLevelIndicatorController {
             JSONObject data=new JSONObject();
             data.put("id",id);
             data.put("firstLevelIndicatorId",firstLevelIndicatorId);
-            data.put("addDate",addDate);
-            data.put("isDelete",isDelete);
-            data.put("deleteDate",deleteDate);
+//            data.put("addDate",addDate);
+//            data.put("isDelete",isDelete);
+//            data.put("deleteDate",deleteDate);
             re.put("data",data);
         }
         //更新失败
@@ -266,7 +265,7 @@ public class SecondLevelIndicatorController {
             jsonObject.put("addDate",new SimpleDateFormat("yyyy-MM-dd").format((Date) map.get("addDate")));
             jsonObject.put("isDelete",map.get("isDelete"));
             jsonObject.put("deleteDate",new SimpleDateFormat("yyyy-MM-dd").format((Date) map.get("deleteDate")));
-            re.put("date",jsonObject);
+            re.put("data",jsonObject);
         }
         else
         {
@@ -283,7 +282,7 @@ public class SecondLevelIndicatorController {
             @RequestParam("secondLevelIndicatorId") Integer secondLevelIndicatorId
     )
     {
-        int i=secondLevelIndicatorService.deleteSecondLevelIndicator(secondLevelIndicatorId);
+        int i=secondLevelIndicatorService.deleteSecondLevelIndicator(secondLevelIndicatorId,new Date());
         JSONObject re=new JSONObject();
         //删除成功
         if(i>0)

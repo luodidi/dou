@@ -8,6 +8,7 @@ import com.whut.service.ISecondLevelIndicatorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -56,7 +57,7 @@ public class SecondLevelIndicatorServiceImpl implements ISecondLevelIndicatorSer
     }
 
     @Override
-    public int deleteSecondLevelIndicator(Integer secondLevelIndicatorId) {
-        return secondLevelIndicatorDao.deleteSecondLevelIndicator(secondLevelIndicatorId);
+    public int deleteSecondLevelIndicator(Integer secondLevelIndicatorId, Date deleteDate) {
+        return secondLevelIndicatorDao.deleteSecondLevelIndicator(secondLevelIndicatorId,deleteDate);
     }
 }

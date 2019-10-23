@@ -69,9 +69,11 @@
     <!--
     由id删除一张检查表
     -->
-    <update id="deleteCheckTable" parameterType="java.lang.Integer">
+    <update id="deleteCheckTable">
         update checktables
-        set isDelete=1
+        set
+        isDelete=1,
+        deleteDate=#{deleteDate}
         where id=#{checkTableId}
     </update>
 </mapper>

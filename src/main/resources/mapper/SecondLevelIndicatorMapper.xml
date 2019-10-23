@@ -22,10 +22,10 @@
         update secondlevelindicators
         set
         firstLevelIndicatorId=#{firstLevelIndicatorId},
-        content=#{content},
-        addDate=#{addDate},
-        isDelete=#{isDelete},
-        deleteDate=#{deleteDate}
+        content=#{content}
+        <!--addDate=#{addDate},-->
+        <!--isDelete=#{isDelete},-->
+        <!--deleteDate=#{deleteDate}-->
         where id=#{id}
     </update>
 
@@ -56,9 +56,10 @@
     <!--
     根据二级指标id删除
     -->
-    <update id="deleteSecondLevelIndicator" parameterType="java.lang.Integer">
+    <update id="deleteSecondLevelIndicator" >
         update secondlevelindicators
-        set isDelete=1
+        set isDelete=1,
+        deleteDate=#{deleteDate}
         where id=#{secondLevelIndicatorId}
     </update>
 </mapper>

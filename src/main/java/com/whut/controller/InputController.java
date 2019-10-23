@@ -78,15 +78,14 @@ public class InputController {
                 hiddenDanger.sethPhoto(jsonHd.getString("hPhoto"));
                 //hiddenDanger.setStatus(jsonHd.getString("status"));
                 hiddenDanger.setStatus("未整改");
-                hiddenDanger.setStartDate(new SimpleDateFormat("yyyy-MM-dd").parse(jsonHd.getString("startDate")));
-                hiddenDanger.setEndDate(new SimpleDateFormat("yyyy-MM-dd").parse(jsonHd.getString("endDate")));
-                hiddenDanger.setFinishDate(new SimpleDateFormat("yyyy-MM-dd").parse(jsonHd.getString("finishDate")));
-                hiddenDanger.setrPhoto(jsonHd.getString("rPhoto"));
-                hiddenDanger.setDesc(jsonHd.getString("desc"));
-                hiddenDanger.setFile(jsonHd.getBoolean("isFile"));
-                hiddenDanger.setDispatchUserId(jsonHd.getInteger("dispatchUserId"));
-                hiddenDanger.setDispatchDeptId(jsonHd.getInteger("dispatchDeptId"));
-                hiddenDanger.setDeptId(jsonHd.getInteger("deptId"));
+                hiddenDanger.setStartDate(new SimpleDateFormat("yyyy-MM-dd").parse("2099-12-31"));
+                hiddenDanger.setEndDate(new SimpleDateFormat("yyyy-MM-dd").parse("2099-12-31"));
+                hiddenDanger.setFinishDate(new SimpleDateFormat("yyyy-MM-dd").parse("2099-12-31"));
+                hiddenDanger.setDesc("");
+                hiddenDanger.setFile(false);
+                hiddenDanger.setDispatchUserId(null);
+                hiddenDanger.setDispatchDeptId(null);
+                hiddenDanger.setDeptId(null);
                 hiddenDanger.setContent(jsonHd.getString("content"));
 
                 //向数据库中添加隐患数据
@@ -425,6 +424,7 @@ public class InputController {
     }
 
     //获得各种隐患分类的数量
+    @Transactional
     @RequestMapping("/api/input/getNumberHiddenDanger")
     public String getNumberHiddenDanger()
     {
@@ -535,7 +535,7 @@ public class InputController {
         while (i<4)
         {
             JSONObject temp=new JSONObject();
-            temp.put("status",inputName[i]);
+            temp.put("hdStatus",inputName[i]);
             temp.put("total",map.get(input[k++])+map.get(input[k++])+map.get(input[k++]));
             int j=0;
             JSONArray list=new JSONArray();

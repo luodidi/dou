@@ -2,8 +2,10 @@ package com.whut.dao;
 
 import com.whut.bean.CheckTable;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -34,5 +36,6 @@ public interface ICheckTableDao {
     public Map<String, Object> getDetailCheckTable(Integer checkTableId);
 
     //由检查表id删除检查表
-    public int deleteCheckTable(Integer checkTableId);
+    public int deleteCheckTable(@Param("checkTableId") Integer checkTableId, @Param("deleteDate")Date deleteDate);
+
 }

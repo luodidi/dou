@@ -26,4 +26,6 @@ public interface IDepartmentDao {
 
     // 删除部门
     public int deleteDepartment(Integer id);
+
+
 }
