@@ -27,4 +27,11 @@ public interface IDangerousoperationDao {
  public int submitdangerousoperation(@Param("dangerousoperationId") int dangerousoperationId);
  public int withdrawdangerousoperation(@Param("dangerousoperationId") int dangerousoperationId);
  public int filedangerousoperation(@Param("dangerousoperationId") int dangerousoperationId);
+
+ //获取所有待审核的作业
+ public List<Map<String, Object>> getListWait();
+ //获取所有非待审核的作业
+ public List<Map<String, Object>> getListNoWait();
+ //审核通过或退回
+ public int pass(@Param("id") Integer id,@Param("status") String status);
 }

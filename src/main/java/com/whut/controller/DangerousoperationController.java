@@ -6,15 +6,13 @@ import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageInfo;
 import com.whut.bean.Dangerousoperation;
 import com.whut.service.IDangerousoperationService;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.text.SimpleDateFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
 
@@ -68,48 +66,64 @@ public class DangerousoperationController {
         return re.toJSONString();
     }
 
-    //详细
-  /*  @RequestMapping("/api/dangerousoperation/detail")
-    public String detaildangerousoperation(int dangerousoperationId) {
 
+    @RequestMapping("/api/dangerousoperation/getListWait")
+    public String getListWait(Integer pageNum,Integer pageSize)
+    {
         //获得数据
-        // PageInfo<Map<String,Object>> list=iDangerousoperationService.find(dangerousoperationId);
-        int s=iDangerousoperationService.find(dangerousoperationId);
+        PageInfo<Map<String, Object>> list = iDangerousoperationService.getListWait(pageSize,pageNum);
+//
         JSONObject re = new JSONObject();
         re.put("status", 1);
-      if(s>0)
-      {
-            JSONObject object = new JSONObject();
-            object.put("id", dangerousoperationId.getId());
-            object.put("deptId", dangerousoperationId.getDeptId());
-            object.put("applyDate", dangerousoperationId.getApplyDate());
-            object.put("status", dangerousoperationId.getStatus());
-            object.put("keepFile", dangerousoperationId.getKeepFile());
-            object.put("name", dangerousoperationId.getName());
-            object.put("startDate", dangerousoperationId.getStartDate());
-            object.put("endDate", dangerousoperationId.getEndDate());
-            object.put("place", dangerousoperationId.getPlace());
-            object.put("applyPerson", dangerousoperationId.getApplyPerson());
-            object.put("curator", dangerousoperationId.getCurator());
-            object.put("content", dangerousoperationId.getContent());
-            object.put("number", dangerousoperationId.getNumber());
-            object.put("majorFactor", dangerousoperationId.getMajorFactor());
-            object.put("safeMeasure", dangerousoperationId.getSafeMeasure());
-            object.put("keepYear", dangerousoperationId.getKeepYear());
-            re.put("data", object);
+        JSONObject data = new JSONObject();
+        data.put("total", list.getSize());
+        data.put("pageNum", pageNum);
+        data.put("pageSize", pageSize);
+        JSONArray listJSON = new JSONArray();
+        for (Map<String, Object> map : list.getList()) {
+            JSONObject temp = new JSONObject();
+            temp.put("id",map.get("id"));
+            temp.put("deptId", map.get("deptId"));
+            temp.put("name", map.get("name"));
+            temp.put("place", map.get("place"));
+            temp.put("curator", map.get("curator"));
+            listJSON.add(temp);
         }
-        else {
-//        失败：
-//        {
-//            "result": 0,
-//                "message": "添加失败"
-            re.put("status",0);
-            re.put("message","添加失败");
-//        }
-        }
+        data.put("list",listJSON);
+        re.put("data",data);
+
         return re.toJSONString();
     }
-*/
+
+    //获取所有非待审核的作业
+    @RequestMapping("/api/dangerousoperation/getListNoWait")
+    public String getListNoWait(Integer pageNum,Integer pageSize)
+    {
+        PageInfo<Map<String, Object>> list = iDangerousoperationService.getListNoWait(pageSize,pageNum);
+//
+        JSONObject re = new JSONObject();
+        re.put("status", 1);
+        JSONObject data = new JSONObject();
+        data.put("total", list.getSize());
+        data.put("pageNum", pageNum);
+        data.put("pageSize", pageSize);
+        JSONArray listJSON = new JSONArray();
+        for (Map<String, Object> map : list.getList()) {
+            JSONObject temp = new JSONObject();
+            temp.put("id",map.get("id"));
+            temp.put("deptId", map.get("deptId"));
+            temp.put("name", map.get("name"));
+            temp.put("place", map.get("place"));
+            temp.put("curator", map.get("curator"));
+            listJSON.add(temp);
+        }
+        data.put("list",listJSON);
+        re.put("data",data);
+
+        return re.toJSONString();
+    }
+
+    //由危险作业id获得详情
     @RequestMapping("/api/dangerousoperation/detail")
     public String getDetailFirstLevelIndicator(
             @RequestParam("dangerousoperationId") Integer dangerousoperationId)
@@ -136,7 +150,7 @@ public class DangerousoperationController {
             object.put("majorFactor", map.get("majorFactor"));
             object.put("safeMeasure", map.get("safeMeasure"));
             object.put("keepYear", map.get("keepYear"));
-            re.put("date",object);
+            re.put("data",object);
         }
         else
         {
@@ -167,7 +181,7 @@ public class DangerousoperationController {
         //id自增
         Dangerousoperation dangerousoperation = new Dangerousoperation();
         dangerousoperation.setDeptId(deptId);
-        dangerousoperation.setStatus(status);
+        dangerousoperation.setStatus("待审核");
         dangerousoperation.setKeepFile(false);
         dangerousoperation.setName(name);
         dangerousoperation.setPlace(place);
@@ -191,25 +205,25 @@ public class DangerousoperationController {
         JSONObject jsonObject = new JSONObject();
         if (id > 0) {
             jsonObject.put("status", 1);
-
-            JSONObject jsonObject1 = new JSONObject();
-            jsonObject1.put("id", id);
-            jsonObject1.put("deptId", deptId);
-            jsonObject1.put("applyDate", new SimpleDateFormat("yyyy-MM-dd").format(date));
-            jsonObject1.put("status", status);
-            jsonObject1.put("keepFile", false);
-            jsonObject1.put("name", name);
-            jsonObject1.put("startDate", startDate);
-            jsonObject1.put("endDate", endDate);
-            jsonObject1.put("place", place);
-            jsonObject1.put("applyPerson", applyPerson);
-            jsonObject1.put("curator", curator);
-            jsonObject1.put("content", content);
-            jsonObject1.put("number", number);
-            jsonObject1.put("majorFactor", majorFactor);
-            jsonObject1.put("safeMeasure", safeMeasure);
-            jsonObject1.put("keepYear", keepYear);
-            jsonObject.put("data", jsonObject1);
+            jsonObject.put("message","添加成功");
+//            JSONObject jsonObject1 = new JSONObject();
+//            jsonObject1.put("id", id);
+//            jsonObject1.put("deptId", deptId);
+//            jsonObject1.put("applyDate", new SimpleDateFormat("yyyy-MM-dd").format(date));
+//            jsonObject1.put("status", status);
+//            jsonObject1.put("keepFile", false);
+//            jsonObject1.put("name", name);
+//            jsonObject1.put("startDate", startDate);
+//            jsonObject1.put("endDate", endDate);
+//            jsonObject1.put("place", place);
+//            jsonObject1.put("applyPerson", applyPerson);
+//            jsonObject1.put("curator", curator);
+//            jsonObject1.put("content", content);
+//            jsonObject1.put("number", number);
+//            jsonObject1.put("majorFactor", majorFactor);
+//            jsonObject1.put("safeMeasure", safeMeasure);
+//            jsonObject1.put("keepYear", keepYear);
+//            jsonObject.put("data", jsonObject1);
         } else {
 //            失败：
 //            {
@@ -363,6 +377,46 @@ public class DangerousoperationController {
         }
         return re.toJSONString();
 
+    }
+
+    @RequestMapping("/api/dangerousoperation/pass")
+    public String pass(
+            @RequestParam("id") Integer id
+    )
+    {
+        int j=id;
+        int i=iDangerousoperationService.checkStatus(id,"已通过");
+        JSONObject re=new JSONObject();
+        if(i>0)
+        {
+            re.put("status",1);
+            re.put("message","通过成功");
+        }
+        else
+        {
+            re.put("status",0);
+            re.put("message","通过失败");
+        }
+        return re.toJSONString();
+    }
+    @RequestMapping("/api/dangerousoperation/reset")
+    public String reset(
+            @RequestParam("id") Integer id
+    )
+    {
+        int i=iDangerousoperationService.checkStatus(id,"已退回");
+        JSONObject re=new JSONObject();
+        if(i>0)
+        {
+            re.put("status",1);
+            re.put("message","退回成功");
+        }
+        else
+        {
+            re.put("status",0);
+            re.put("message","退回失败");
+        }
+        return re.toJSONString();
     }
 }
 

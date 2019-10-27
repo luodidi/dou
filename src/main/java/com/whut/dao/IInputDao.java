@@ -33,7 +33,7 @@ public interface IInputDao {
     public Map<String, Object> getDetailHiddenDanger(Integer hiddenDangerId);
 
     //由录取表id获得其详情
-    public Map<String, Object> getDetailInput(Integer inputId);
+    public Map<String, Object> getDetailInput(String inputId);
 
     //获取录入表列表（分页）
     public List<Map<String, Object>> getListInput();
@@ -59,4 +59,10 @@ public interface IInputDao {
 
     //获得各种隐患的分类（逾期）
     public List<Map<String,Object>> getNumberHiddenDangerTimeOut();
+
+    //由inputId和二级指标id获得所有二级指标内容
+    public Map<String,Object> getAllCheckDetail(@Param("inputId") String inputId,@Param("secondId") Integer secondId);
+
+    //撤回隐患
+    public int withdrawHiddenDanger(Integer hiddenDangerId);
 }

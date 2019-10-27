@@ -2,8 +2,6 @@ package com.whut.service;
 
 import com.github.pagehelper.PageInfo;
 import com.whut.bean.Dangerousoperation;
-import org.apache.ibatis.annotations.Param;
-import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Map;
@@ -29,4 +27,10 @@ public PageInfo<Map<String,Object>> findDangerousoperation(Integer page, Integer
     public int withdrawdangerousoperation( int dangerousoperationId);
     public int filedangerousoperation( int dangerousoperationId);
 
+    //获取所有待审核的作业
+    public PageInfo<Map<String, Object>> getListWait(int pageSize,int pageNum);
+    //获取所有非待审核的作业
+    public PageInfo<Map<String, Object>> getListNoWait(int pageNum,int pageSize);
+    //审核通过或退回
+    public int checkStatus(Integer id,String status);
 }

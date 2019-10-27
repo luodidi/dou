@@ -47,9 +47,9 @@ public class HazardController {
             temp.put("riskId",map.get("riskId"));
             temp.put("name",map.get("name"));
             temp.put("type",map.get("type"));
-            temp.put("l",map.get("l"));
-            temp.put("e",map.get("e"));
-            temp.put("c",map.get("c"));
+            temp.put("L",map.get("l"));
+            temp.put("E",map.get("e"));
+            temp.put("C",map.get("c"));
             temp.put("degree",map.get("degree"));
             temp.put("measure",map.get("measure"));
             temp.put("level",map.get("level"));
@@ -58,7 +58,8 @@ public class HazardController {
 
             listJSON.add(temp);
         }
-        re.put("list",listJSON);
+        data.put("list",listJSON);
+        re.put("data",data);
 
         return re.toJSONString();
     }
@@ -74,7 +75,7 @@ public class HazardController {
             @RequestParam("type") String type,
             @RequestParam("l")Integer l,
             @RequestParam("e")Integer e,
-            @RequestParam("l")Integer c,
+            @RequestParam("c")Integer c,
             @RequestParam("degree")String degree,
             @RequestParam("measure")String measure,
             @RequestParam("level")String level,
@@ -102,23 +103,24 @@ public class HazardController {
         if(insertId>0)
         {
             jsonObject.put("status",1);
-            JSONObject jsonObject1=new JSONObject();
+            jsonObject.put("message","添加成功");
+//            JSONObject jsonObject1=new JSONObject();
 
-            jsonObject1.put("id",insertId);
-            jsonObject1.put("riskId",riskId);
-            jsonObject1.put("name",name);
-            jsonObject1.put("type",type);
-            jsonObject1.put("l",l);
-            jsonObject1.put("e",e);
-            jsonObject1.put("c",c);
-            jsonObject1.put("name",name);
-            jsonObject1.put("degree",degree);
-            jsonObject1.put("measure",measure);
-            jsonObject1.put("level",level);
-            jsonObject1.put("deptId",deptId);
-            jsonObject1.put("userId",userId);
-
-            jsonObject.put("data",jsonObject1);
+//            jsonObject1.put("id",insertId);
+//            jsonObject1.put("riskId",riskId);
+//            jsonObject1.put("name",name);
+//            jsonObject1.put("type",type);
+//            jsonObject1.put("l",l);
+//            jsonObject1.put("e",e);
+//            jsonObject1.put("c",c);
+//            jsonObject1.put("name",name);
+//            jsonObject1.put("degree",degree);
+//            jsonObject1.put("measure",measure);
+//            jsonObject1.put("level",level);
+//            jsonObject1.put("deptId",deptId);
+//            jsonObject1.put("userId",userId);
+//
+//            jsonObject.put("data",jsonObject1);
         }
         else {
             jsonObject.put("status",0);
@@ -191,23 +193,23 @@ public class HazardController {
         if(nums>0)
         {
             re.put("status",1);
-            JSONObject data=new JSONObject();
-
-            data.put("id",hazard.getId());
-            data.put("riskId",hazard.getRiskId());
-            data.put("name",hazard.getName());
-            data.put("type",hazard.getType());
-            data.put("l",hazard.getL());
-            data.put("e",hazard.getE());
-            data.put("c",hazard.getC());
-            data.put("name",hazard.getName());
-            data.put("degree",hazard.getDegree());
-            data.put("measure",hazard.getMeasure());
-            data.put("level",hazard.getLevel());
-            data.put("deptId",hazard.getDeptId());
-            data.put("userId",hazard.getUserId());
-
-            re.put("data",data);
+            re.put("message","更新成功");
+//            JSONObject data=new JSONObject();
+//
+//            data.put("id",hazard.getId());
+//            data.put("riskId",hazard.getRiskId());
+//            data.put("name",hazard.getName());
+//            data.put("type",hazard.getType());
+//            data.put("l",hazard.getL());
+//            data.put("e",hazard.getE());
+//            data.put("c",hazard.getC());
+//            data.put("degree",hazard.getDegree());
+//            data.put("measure",hazard.getMeasure());
+//            data.put("level",hazard.getLevel());
+//            data.put("deptId",hazard.getDeptId());
+//            data.put("userId",hazard.getUserId());
+//
+//            re.put("data",data);
         }
         else {
 
@@ -222,29 +224,27 @@ public class HazardController {
     public String getHazardById(@RequestParam("id") Integer id)
     {
 
-        int nums=hazardService.getHazardById(id);
+        Map<String,Object>map =hazardService.getDetailHazard(id);
 
-        Hazard hazard=new Hazard();
         JSONObject re=new JSONObject();
 
-        if(nums>0)
+        if(!(map==null||map.size()<1))
         {
             re.put("status",1);
             JSONObject data=new JSONObject();
 
-            data.put("id",hazard.getId());
-            data.put("riskId",hazard.getRiskId());
-            data.put("name",hazard.getName());
-            data.put("type",hazard.getType());
-            data.put("l",hazard.getL());
-            data.put("e",hazard.getE());
-            data.put("c",hazard.getC());
-            data.put("name",hazard.getName());
-            data.put("degree",hazard.getDegree());
-            data.put("measure",hazard.getMeasure());
-            data.put("level",hazard.getLevel());
-            data.put("deptId",hazard.getDeptId());
-            data.put("userId",hazard.getUserId());
+            data.put("id",map.get("id"));
+            data.put("riskId",map.get("riskId"));
+            data.put("name",map.get("name"));
+            data.put("type",map.get("type"));
+            data.put("l",map.get("l"));
+            data.put("e",map.get("e"));
+            data.put("c",map.get("c"));
+            data.put("degree",map.get("degree"));
+            data.put("measure",map.get("measure"));
+            data.put("level",map.get("level"));
+            data.put("deptId",map.get("deptId"));
+            data.put("userId",map.get("userId"));
 
             re.put("data",data);
         }

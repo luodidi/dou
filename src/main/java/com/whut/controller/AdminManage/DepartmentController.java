@@ -28,14 +28,19 @@ public class DepartmentController {
     // 插入部门
     @RequestMapping("/api/department/insert")
     public String insertDepartment(
-            @RequestParam("name") String name
+            @RequestParam("name") String name,
+            @RequestParam("phone") String phone,
+            @RequestParam("address")String address,
+            @RequestParam("desc")String desc
     )
     {
 
         //id自增
         Department dept=new Department();
         dept.setName(name);
-
+        dept.setPhone(phone);
+        dept.setAddress(address);
+        dept.setDesc(desc);
         int insertId=departmentService.insertDepartment(dept);
         JSONObject jsonObject=new JSONObject();
         if(insertId>0) {
@@ -45,7 +50,9 @@ public class DepartmentController {
 
             jsonObject1.put("id",insertId);
             jsonObject1.put("name",name);
-
+            jsonObject1.put("phone",phone);
+            jsonObject1.put("address",address);
+            jsonObject1.put("desc",desc);
             jsonObject.put("data",jsonObject1);
         }
         else {
@@ -86,14 +93,20 @@ public class DepartmentController {
     @RequestMapping("/api/department/update")
     public String updateDepartment(
             @RequestParam("id") Integer id,
-            @RequestParam("name") String name)
+            @RequestParam("name") String name,
+            @RequestParam("phone")String phone,
+            @RequestParam("address")String address,
+            @RequestParam("desc")String desc
+    )
           
     {
         Department dept=new Department();
 
         dept.setId(id);
         dept.setName(name);
-
+        dept.setPhone(phone);
+        dept.setAddress(address);
+        dept.setDesc(desc);
         int up=departmentService.updateDepartmentById(dept);
 
         JSONObject re=new JSONObject();
@@ -105,7 +118,9 @@ public class DepartmentController {
 
             data.put("id",dept.getId());
             data.put("name",dept.getName());
-
+            data.put("phone",dept.getPhone());
+            data.put("address",dept.getAddress());
+            data.put("desc",dept.getDesc());
             re.put("data",data);
         }
         else {
@@ -137,15 +152,18 @@ public class DepartmentController {
             JSONObject temp=new JSONObject();
             temp.put("id",map.get("id"));
             temp.put("name",map.get("name"));
-
+            temp.put("phone",map.get("phone"));
+            temp.put("address",map.get("address"));
+            temp.put("desc",map.get("desc"));
             listJSON.add(temp);
         }
-        re.put("list",listJSON);
+        data.put("list",listJSON);
+        re.put("data",data);
 
         return re.toJSONString();
     }
 
-    //获取所有的角色 ---cccc
+    //获取所有的部门 ---cccc
     @RequestMapping("/api/department/getAllDept")
     public String getAllRole()
     {

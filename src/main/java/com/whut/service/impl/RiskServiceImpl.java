@@ -3,7 +3,6 @@ package com.whut.service.impl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.whut.bean.Risk;
-import com.whut.dao.IHazardDao;
 import com.whut.dao.IRiskDao;
 import com.whut.service.IRiskService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +31,12 @@ public class RiskServiceImpl implements IRiskService {
     }
 
    // @Override
-   // public Map<String, Object> getDetailRisk(Integer riskId) {return iRiskDao.getDetailRisk(riskId);}
+    public Map<String, Object> getDetailRisk(Integer riskId) {return iRiskDao.getDetailRisk(riskId);}
+
+    @Override
+    public List<Map<String, Object>> getAllList() {
+        return iRiskDao.getAllList();
+    }
 
     // 获取所有风险列表 通过id查找 显示详细的信息
     @Override

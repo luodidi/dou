@@ -7,7 +7,6 @@ import com.whut.bean.Dangerousoperation;
 import com.whut.dao.IDangerousoperationDao;
 import com.whut.service.IDangerousoperationService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -81,6 +80,24 @@ public class DangerousoperationImpl implements IDangerousoperationService {
     @Override
     public int filedangerousoperation(int dangerousoperationId) {
         return iDangerousoperationDao.filedangerousoperation(dangerousoperationId);
+    }
+
+    @Override
+    public PageInfo<Map<String, Object>> getListWait(int pageSize,int pageNum) {
+        PageHelper.startPage(pageNum,pageSize);
+        return new PageInfo<>(iDangerousoperationDao.getListWait());
+    }
+
+    @Override
+    public PageInfo<Map<String, Object>> getListNoWait(int pageNum,int pageSize) {
+        PageHelper.startPage(pageNum,pageSize);
+        return new PageInfo<>(iDangerousoperationDao.getListNoWait());
+    }
+
+    //审核通过或退回
+    public int checkStatus(Integer id,String status)
+    {
+        return iDangerousoperationDao.pass(id,status);
     }
 
 

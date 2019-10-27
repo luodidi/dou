@@ -43,7 +43,7 @@ public class InputServiceImpl implements IInputService {
     }
 
     @Override
-    public Map<String, Object> getDetailInput(Integer inputId) {
+    public Map<String, Object> getDetailInput(String inputId) {
         return inputDao.getDetailInput(inputId);
     }
 
@@ -51,6 +51,11 @@ public class InputServiceImpl implements IInputService {
     public PageInfo<Map<String, Object>> getListInput(Integer pageNum, Integer pageSize) {
         PageHelper.startPage(pageNum,pageSize);
         return new PageInfo<>(inputDao.getListInput());
+    }
+
+    @Override
+    public List<Map<String, Object>> getAllListInput() {
+        return inputDao.getListInput();
     }
 
     @Override
@@ -83,6 +88,16 @@ public class InputServiceImpl implements IInputService {
     @Override
     public List<Map<String, Object>> getNumberHiddenDangerTimeOut() {
         return inputDao.getNumberHiddenDangerTimeOut();
+    }
+
+    @Override
+    public Map<String, Object> getAllCheckDetail(String inputId, Integer secondId) {
+        return inputDao.getAllCheckDetail(inputId,secondId);
+    }
+
+    @Override
+    public int withdrawHiddenDanger(Integer hiddenDangerId) {
+        return inputDao.withdrawHiddenDanger(hiddenDangerId);
     }
 
 

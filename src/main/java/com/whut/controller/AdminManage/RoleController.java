@@ -141,10 +141,9 @@ public class RoleController {
 
             listJSON.add(temp);
         }
-        re.put("list",listJSON);
+        data.put("list",listJSON);
+        re.put("data",data);
 
         return re.toJSONString();
     }
-
-
 }

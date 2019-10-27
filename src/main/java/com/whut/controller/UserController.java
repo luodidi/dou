@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.text.SimpleDateFormat;
 import java.util.Map;
 
 /**
@@ -26,47 +25,47 @@ public class UserController {
     @Autowired
     private IUserService userService;
 
-    @Transactional
-    @RequestMapping("/api/login")
-    public String login(
-    )
-    {
-        JSONObject re=new JSONObject();
-            re.put("status",1);
-            JSONObject data=new JSONObject();
-            data.put("id",123);
-            re.put("data",data);
-        return re.toJSONString();
-    }
-
 //    @Transactional
 //    @RequestMapping("/api/login")
 //    public String login(
-//            @RequestParam("id") Integer id,
-//            @RequestParam("password") String password
 //    )
 //    {
-//        Map<String,Object> map =userService.login(id,password);
 //        JSONObject re=new JSONObject();
-//        if(map==null)
-//        {
-//            re.put("status",0);
-//            re.put("message","账号或密码错误");
-//        }
-//        else
-//        {
 //            re.put("status",1);
 //            JSONObject data=new JSONObject();
-//            data.put("username",map.get("userName"));
-//            data.put("id",map.get("id"));
-//            data.put("roleId",map.get("roleId"));
-//            data.put("role",map.get("roleName"));
-//            data.put("deptId",map.get("deptId"));
-//            data.put("password",map.get("password"));
+//            data.put("id",123);
 //            re.put("data",data);
-//        }
-//       return re.toJSONString();
+//        return re.toJSONString();
 //    }
+
+    @Transactional
+    @RequestMapping("/api/login")
+    public String login(
+            @RequestParam("id") Integer id,
+            @RequestParam("password") String password
+    )
+    {
+        Map<String,Object> map =userService.login(id,password);
+        JSONObject re=new JSONObject();
+        if(map==null)
+        {
+            re.put("status",0);
+            re.put("message","账号或密码错误");
+        }
+        else
+        {
+            re.put("status",1);
+            JSONObject data=new JSONObject();
+            data.put("username",map.get("userName"));
+            data.put("id",map.get("id"));
+            data.put("roleId",map.get("roleId"));
+            data.put("role",map.get("roleName"));
+            data.put("deptId",map.get("deptId"));
+            data.put("password",map.get("password"));
+            re.put("data",data);
+        }
+       return re.toJSONString();
+    }
 
     @Transactional
     @RequestMapping("/test")
@@ -216,15 +215,17 @@ public class UserController {
             JSONObject temp=new JSONObject();
 
             temp.put("id",map.get("id"));
-            temp.put("name",map.get("cName"));
+            temp.put("name",map.get("name"));
             temp.put("roleId",map.get("roleId"));
             temp.put("deptId",map.get("deptId"));
+            temp.put("deptName",map.get("deptName"));
             temp.put("password",map.get("password"));
 
 
             listJSON.add(temp);
         }
-        re.put("list",listJSON);
+        data.put("list",listJSON);
+        re.put("data",data);
 
         return re.toJSONString();
     }

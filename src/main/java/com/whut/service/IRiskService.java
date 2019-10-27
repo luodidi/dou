@@ -3,7 +3,6 @@ package com.whut.service;
 import com.github.pagehelper.PageInfo;
 import com.whut.bean.Risk;
 
-import java.nio.channels.Pipe;
 import java.util.List;
 import java.util.Map;
 
@@ -24,8 +23,9 @@ public interface IRiskService {
 
     public int deleteRisk(Integer id);          // 删除
 
-   // public Map<String, Object> getDetailRisk(Integer riskId);      // 通过id获取详细信息
+    public Map<String, Object> getDetailRisk(Integer riskId);      // 通过id获取详细信息
 
+    public List<Map<String,Object>> getAllList(); //获得所有风险点的信息
 
 
 

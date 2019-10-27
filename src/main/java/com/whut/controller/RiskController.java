@@ -10,8 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -48,7 +47,8 @@ public class RiskController {
             temp.put("telephone", map.get("telephone"));
             listJSON.add(temp);
         }
-        jt.put("list", listJSON);
+        data.put("list",listJSON);
+        jt.put("data", data);
         return jt.toJSONString();
     }
 
@@ -163,5 +163,59 @@ public class RiskController {
         return re.toJSONString();
     }
 
-
+    @RequestMapping("/api/risk/getDetail")
+    public String getDetail(
+            @RequestParam("id")Integer id
+    )
+    {
+        Map<String,Object> map=riskService.getDetailRisk(id);
+        JSONObject re=new JSONObject();
+//        select id,name,place,level,telephone
+        if(map==null||map.size()<=0)
+        {
+            re.put("status",0);
+            re.put("message","获得详情失败");
+        }
+        else
+        {
+            re.put("status",1);
+            JSONObject data=new JSONObject();
+            data.put("id",map.get("id"));
+            data.put("name",map.get("name"));
+            data.put("place",map.get("place"));
+            data.put("level",map.get("level"));
+            data.put("telephone",map.get("phone"));
+            re.put("data",data);
+        }
+        return re.toJSONString();
     }
+
+    @RequestMapping("/api/risk/getAllList")
+    public String getAllList()
+    {
+        List<Map<String,Object>> list=riskService.getAllList();
+        JSONObject re=new JSONObject();
+        if(list==null||list.size()<1)
+        {
+            re.put("status",0);
+            re.put("message","获得风险点列表失败");
+        }
+        else
+        {
+            re.put("status",1);
+            JSONArray data= new JSONArray();
+            for(Map<String,Object>map:list)
+            {
+                JSONObject temp=new JSONObject();
+                temp.put("id",map.get("id"));
+                temp.put("name",map.get("name"));
+                temp.put("place",map.get("place"));
+                temp.put("level",map.get("level"));
+                temp.put("telephone",map.get("telephone"));
+                data.add(temp);
+            }
+            re.put("data",data);
+        }
+        return re.toJSONString();
+    }
+}

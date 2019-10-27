@@ -7,7 +7,9 @@ import com.github.pagehelper.PageInfo;
 import com.whut.bean.CheckTableDetail;
 import com.whut.bean.HiddenDanger;
 import com.whut.bean.Input;
+import com.whut.service.impl.FirstLevelIndicatorImpl;
 import com.whut.service.impl.InputServiceImpl;
+import com.whut.service.impl.SecondLevelIndicatorServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,6 +35,10 @@ public class InputController {
 
     @Autowired
     InputServiceImpl inputService;
+    @Autowired
+    FirstLevelIndicatorImpl firstLevelIndicatorService;
+    @Autowired
+    SecondLevelIndicatorServiceImpl secondLevelIndicatorService;
 
     //创建新的录用表并且添加隐患和具体二级指标
     //Post
@@ -83,9 +89,9 @@ public class InputController {
                 hiddenDanger.setFinishDate(new SimpleDateFormat("yyyy-MM-dd").parse("2099-12-31"));
                 hiddenDanger.setDesc("");
                 hiddenDanger.setFile(false);
-                hiddenDanger.setDispatchUserId(null);
-                hiddenDanger.setDispatchDeptId(null);
-                hiddenDanger.setDeptId(null);
+                hiddenDanger.setDispatchUserId(1);
+                hiddenDanger.setDispatchDeptId(1);
+                hiddenDanger.setDeptId(1);
                 hiddenDanger.setContent(jsonHd.getString("content"));
 
                 //向数据库中添加隐患数据
@@ -125,15 +131,27 @@ public class InputController {
     @RequestMapping("/api/input/savePicture")
     public String savePicture(@RequestParam("avatar") MultipartFile multipartFile)throws IOException
     {
-        String path="F:\\douPictures";
+        //String path= ClassUtils.getDefaultClassLoader().getResource("").getPath()+ "static/HDphotos/";
+        String path="F:/ideaWorkPlace/dou/src/main/resources/static/HDphotos/";
+        String path1="F:/ideaWorkPlace/dou/target/classes/static/HDphotos/";
         File file=new File(path);
         if(!file.exists())
         {
             file.mkdirs();
         }
-        FileInputStream fileInputStream=(FileInputStream)multipartFile.getInputStream();
         String rPhoto=UUID.randomUUID().toString().replace("-", "")+".jpg";
-        BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(path + File.separator + rPhoto));
+        filePicture(multipartFile,path,rPhoto);
+        filePicture(multipartFile,path1,rPhoto);
+        JSONObject re=new JSONObject();
+        re.put("status",1);
+        re.put("path","HDphotos/"+rPhoto);
+        return re.toJSONString();
+    }
+
+    private void filePicture(MultipartFile multipartFile,String path,String rPhoto) throws IOException {
+        FileInputStream fileInputStream=(FileInputStream)multipartFile.getInputStream();
+        //BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(path + File.separator + rPhoto));        BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(path + File.separator + rPhoto));
+        BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(path  + rPhoto));
         byte[] bs = new byte[1024];
         int len;
         while ((len = fileInputStream.read(bs)) != -1) {
@@ -141,17 +159,12 @@ public class InputController {
         }
         bos.flush();
         bos.close();
-        JSONObject re=new JSONObject();
-        re.put("status",1);
-        re.put("path",path + File.separator + rPhoto);
-        return re.toJSONString();
     }
-
     //由隐患id获得其详情
     //Post
     @RequestMapping("/api/input/getDetailHiddenDanger")
     public String getDetailHiddenDanger(
-            @RequestParam("hiddenDangerId") Integer hiddenDangerId
+            @RequestParam("id") Integer hiddenDangerId
     )
     {
 //        h.id,
@@ -206,7 +219,7 @@ public class InputController {
     //Post
     @RequestMapping("/api/input/getDetailInput")
     public String getDetailInput(
-            @RequestParam("inputId") Integer inputId)
+            @RequestParam("inputId") String inputId)
     {
         Map<String,Object> map=inputService.getDetailInput(inputId);
         JSONObject re=new JSONObject();
@@ -282,7 +295,8 @@ public class InputController {
                 temp.put("otherPerson",map.get("otherPerson"));
                 list.add(temp);
             }
-            re.put("list",list);
+            data.put("list",list);
+            re.put("data",data);
         }
         //数量<=0
         else
@@ -372,7 +386,7 @@ public class InputController {
     @RequestMapping("/api/input/getListHiddenDanger")
     public String getHiddenDangerList(String status,int pageNum,int pageSize)
     {
-        PageInfo<Map<String,Object>> pageInfo;
+        PageInfo<Map<String,Object>> pageInfo=null;
         if(status.equals("已逾期"))
         {
             pageInfo=inputService.getHiddenDangerListTimeOut(pageNum,pageSize);
@@ -381,7 +395,12 @@ public class InputController {
         {
             pageInfo=inputService.getHiddenDangerList(status,pageNum,pageSize);
         }
-
+//        h.id,
+//                c.name checkTableName,
+//            h.type,
+//            h.status,
+//            h.content,
+//            h.isFile
 
         JSONObject re=new JSONObject();
         if(pageInfo.getSize()>0)
@@ -398,17 +417,17 @@ public class InputController {
                 temp.put("id",map.get("id"));
                 temp.put("checkTableName",map.get("checkTableName"));
                 temp.put("type",map.get("type"));
-                temp.put("hPhoto",map.get("hPhoto"));
+                //temp.put("hPhoto",map.get("hPhoto"));
                 temp.put("status",map.get("status"));
-                temp.put("startDate",new SimpleDateFormat("yyyy-MM-dd").format((Date) map.get("startDate")));
-                temp.put("endDate",new SimpleDateFormat("yyyy-MM-dd").format(map.get("endDate")));
-                temp.put("finishDate",new SimpleDateFormat("yyyy-MM-dd").format(map.get("finishDate")));
-                temp.put("rPhoto",map.get("rPhoto"));
-                temp.put("desc",map.get("desc"));
+                //temp.put("startDate",new SimpleDateFormat("yyyy-MM-dd").format((Date) map.get("startDate")));
+                //temp.put("endDate",new SimpleDateFormat("yyyy-MM-dd").format(map.get("endDate")));
+                //temp.put("finishDate",new SimpleDateFormat("yyyy-MM-dd").format(map.get("finishDate")));
+                //temp.put("rPhoto",map.get("rPhoto"));
+                //temp.put("desc",map.get("desc"));
                 temp.put("isFile",map.get("isFile"));
-                temp.put("dispatchUserName",map.get("dispatchUserName"));
-                temp.put("dispatchDeptName",map.get("dispatchDeptName"));
-                temp.put("deptName",map.get("deptName"));
+                //temp.put("dispatchUserName",map.get("dispatchUserName"));
+               // temp.put("dispatchDeptName",map.get("dispatchDeptName"));
+               // temp.put("deptName",map.get("deptName"));
                 temp.put("content",map.get("content"));
                 list.add(temp);
             }
@@ -489,7 +508,7 @@ public class InputController {
                         map.put("wzgyz",((Long)map1.get("hdTypeNum")).intValue()+(int)map.get("wzgyz"));
                     }
                 }
-                else if(map1.get("status").equals("整改中"))
+                else if(map1.get("status").equals("已整改"))
                 {
                     if(map1.get("hdType").equals("一般隐患"))
                     {
@@ -528,8 +547,8 @@ public class InputController {
         String hdName[]=new String[]{"一般隐患","较大隐患","严重隐患"};
         String input[]=new String[]{"wzgyb","wzgjd","wzgyz",
                                     "zgzyb","zgzjd","zgzyz",
-                                    "yzgyb","yzgjd","yzgyz",
-                                    "yyqyb","yyqjd","yyqyz"};
+                                    "yzgyb","yzgjd","zgzyz",
+                                    "yyqyb","yyqjd","zgzyz"};
         int i=0;
         int k=0;
         while (i<4)
@@ -542,8 +561,8 @@ public class InputController {
             while (j<3)
             {
                 JSONObject temp2=new JSONObject();
-                temp2.put("hdType",hdName[j]);
-                temp2.put("total",map.get(input[k-3+j]));
+                temp2.put("name",hdName[j]);
+                temp2.put("value",map.get(input[k-3+j]));
                 list.add(temp2);
                 j++;
             }
@@ -551,8 +570,102 @@ public class InputController {
             data1.add(temp);
             i++;
         }
+        re.put("totalYB",map.get("wzgyb")+map.get("zgzyb")+map.get("yzgyb")+map.get("yyqyb"));
+        re.put("totalJD",map.get("wzgjd")+map.get("zgzjd")+map.get("yzgjd")+map.get("yyqjd"));
+        re.put("totalYZ",map.get("wzgyz")+map.get("zgzyz")+map.get("zgzyz")+map.get("zgzyz"));
         re.put("data",data1);
 
+        return re.toJSONString();
+    }
+
+    //获得录入表及其一级指标内容、二级指标内容
+    //Post
+    @RequestMapping("/api/input/getInputAllInfoById")
+    public String getInputAllInfoById(
+            @RequestParam("inputId") String inputId
+    )
+    {
+        JSONObject re=new JSONObject();
+        re.put("status",1);
+        //获取该id录入表信息
+        Map<String,Object> inputInfo=inputService.getDetailInput(inputId);
+        JSONObject data=new JSONObject();
+//        i.id,
+//                c.name checkTableName,
+//            c.id checkTableId,
+//            i.userName,   <!--检查人的姓名-->
+//            dIng.name deptName,
+//            i.checkDate,
+//            dEd.name deptedName,
+//            i.isQualified,
+//            i.desc,
+//            i.type,
+//            i.otherPerson
+        data.put("inputId",inputInfo.get("id"));
+        data.put("checkTableName",inputInfo.get("checkTableName"));
+        data.put("checkTableId",inputInfo.get("checkTableId"));
+        data.put("userName",inputInfo.get("userName"));
+        data.put("deptName",inputInfo.get("deptName"));
+        data.put("checkDate",new SimpleDateFormat("yyyy-MM-dd").format(inputInfo.get("checkDate")));
+        data.put("deptedName",inputInfo.get("deptedName"));
+        data.put("isQualified",inputInfo.get("isQualified"));
+        data.put("desc",inputInfo.get("desc"));
+        data.put("type",inputInfo.get("type"));
+        data.put("otherPerson",inputInfo.get("otherPerson"));
+        //获得录入表的所有一级指标
+        List<Map<String,Object>> firstList=firstLevelIndicatorService.getAllListFirstLevelIndicator(
+                (int)inputInfo.get("checkTableId"));
+//        select id,project
+        JSONArray firstListJson=new JSONArray();
+        for(Map<String,Object> firstMap:firstList)
+        {
+            JSONObject firstTemp=new JSONObject();
+            firstTemp.put("firstId",firstMap.get("id"));
+            firstTemp.put("project",firstMap.get("project"));
+            //由一级指标id获得其所有二级指标
+            List<Map<String,Object>> secondList=secondLevelIndicatorService.getAllListSecondLevelIndicator(
+                    (int)firstMap.get("id"));
+//            select id,content
+            JSONArray secondListJson=new JSONArray();
+            //根据二级指标id和inputId获得其checkDetail
+            for(Map<String,Object>secondMap:secondList)
+            {
+                JSONObject secondTemp=new JSONObject();
+                secondTemp.put("secondId",secondMap.get("id"));
+                secondTemp.put("content",secondMap.get("content"));
+                Map<String,Object> checkDetailMap=inputService.getAllCheckDetail(inputId,(int)secondMap.get("id"));
+                secondTemp.put("isQualified",checkDetailMap.get("isQualified"));
+                secondTemp.put("desc",checkDetailMap.get("desc"));
+                secondListJson.add(secondTemp);
+            }
+            firstTemp.put("secondList",secondListJson);
+            firstListJson.add(firstTemp);
+        }
+        data.put("firstList",firstListJson);
+        re.put("data",data);
+        return re.toJSONString();
+    }
+
+    //撤回隐患
+    //Post
+    @RequestMapping("/api/input/withdrawHD")
+    public String withdrawHD(
+            //@RequestParam("hiddenDangerId")
+                    Integer hiddenDangerId
+    )
+    {
+        int i=inputService.withdrawHiddenDanger(hiddenDangerId);
+        JSONObject re=new JSONObject();
+        if(i>0)
+        {
+            re.put("status",1);
+            re.put("message","撤回成功");
+        }
+        else
+        {
+            re.put("status",0);
+            re.put("message","撤回失败");
+        }
         return re.toJSONString();
     }
 }
